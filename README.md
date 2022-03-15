@@ -13,3 +13,14 @@ Projeto feito na estrutura MVC (PHP) por [Alenilson Souza](https://alenilsonsouz
 - Planos
 - Rede Credenciada
 - Usuários
+
+## Requisitos de uso
+* É necessário a comunição com a API feita em Laravel/PHP,
+
+## Configuração de ambiente
+* Crie um arquivo `config.php` e copie e cole todo o conteúdo que está em `config.example.php`.
+* Altere as informações de acesso de cada ambiente e acesso ao banco de dados.
+
+## Acesso de usuário teste
+<strong>E-mail:</strong> emailteste@gmail.com<br />
+<strong>Senha:</strong> testeabcd
