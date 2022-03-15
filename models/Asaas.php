@@ -1,6 +1,13 @@
 <?php
 class Asaas extends model
 {
+    public function getClient($params)
+    {
+        /**
+         * @params ?name=&email=&cpfCnpj=&groupName=&externalReference=&offset=&limit=
+         */
+        return $this->curlHandler('get', '/api/v3/customers?'.$params, null);
+    }
     public function addClient($data)
     {
         return $this->curlHandler('post', '/api/v3/customers', $data);
@@ -19,6 +26,19 @@ class Asaas extends model
     public function deleteClientById($id)
     {
         return $this->curlHandler('delete', '/api/v3/customers/' . $id, null);
+    }
+
+    public function getPaymentUnique($id)
+    {
+        return $this->curlHandler('post', '/api/v3/payments/'.$id, null);
+    }
+
+    public function getPaymentList($params)
+    {
+        /**
+         * @params ?customer=&billingType=&status=&subscription=&installment=&externalReference=&paymentDate=&pixQrCodeId=&anticipated=&paymentDate%5Bge%5D=&paymentDate%5Ble%5D=&dueDate%5Bge%5D=&dueDate%5Ble%5D=&offset=&limit=
+         */
+        return $this->curlHandler('post', '/api/v3/payments?'.$params, null);
     }
 
     public function createPayment($data)
