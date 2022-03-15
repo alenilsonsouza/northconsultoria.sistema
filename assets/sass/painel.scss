@@ -1,0 +1,117 @@
+$cor_verde: rgb(15,142,116);
+$cor_vermelha: #b21313;
+$cor_preta: #000;
+$cor_cinza: rgb(183,182,182);
+.tudo {
+    background-color:$cor_cinza;
+    min-height: 100vh;
+    
+}
+.formLogin {
+    background-color:#fff;
+    padding:25px 40px !important;
+    border-radius:5px;
+}
+a{
+    color:$cor_verde;
+    &:hover{
+    }
+}
+.areaImageDoc {
+    width: 100%;
+    height: 150px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+.uploading{
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    right: 0;
+    bottom:0;
+    z-index: 10000;
+    background-color:rgba(0,0,0,.8);
+    justify-content: center;
+    align-items: center;
+    .uploadingContent{
+        padding:20px;
+        border-radius:10px;
+        background-color:#fff;
+        font-size: 20px;
+    }
+
+}
+
+.menuVertical{
+    line-height: 22px;
+
+    ul{
+        li{
+            float: none;
+            
+            a{
+                display: block;
+                padding: 12px 15px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+                max-width: 100%;
+                i{
+                    line-height: 21px !important;
+                    height: auto !important;
+                }
+            }
+        }
+    }
+}
+.carregando{
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    z-index: 10000000;
+    background-color:rgba(0,0,0,0.8);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    display:none;
+    .carregando--conteudo{
+        padding:30px;
+        border-radius:5px;
+        background-color:#fff;
+        .texto{
+            font-size:20px;
+            font-weight: bold;
+            margin-bottom:15px;
+        }
+        .efeito{
+            width: 100%;
+            height: 15px;
+            position: relative;
+            .barra{
+                height: 100%;
+                width: 15px;
+                border-radius:8px;
+                background-color:$cor_preta;
+                animation-name: carrega;
+                animation-duration: 1s;
+                animation-iteration-count: infinite;
+            }
+        }
+    }
+
+}
+@keyframes carrega{
+    0% {margin-left:0}
+    50% {margin-left: 90%}
+    100% {margin-left:0}
+}
+
+

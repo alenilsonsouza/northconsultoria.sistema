@@ -1,0 +1,169 @@
+/*Geral*/
+@media screen and (max-width: 1000px){
+	.conteudo{padding-left:10px; padding-right:10px; width:auto;}
+	.conteudocontato{padding-left:10px; padding-right:10px; width:auto;}
+	
+}
+
+
+/*Menu*/
+@media screen and (max-width: 768px){
+	.f-nav #menu{display:none !important}
+	#menu{display:none;background:rgba(255,255,255,1.00);}
+	#menu ul li{width:calc(100%/2); } 
+	#menu ul li a{ padding: 20px 0;}
+	.btMenu{width:64px; height:64px; position:absolute; right:10px; top:0; background:#05a3db; border-radius:50%;}
+	.btMenu div{width: 32px; height:2px; margin: 5px auto; background:rgba(255,255,255,1.00)}
+	.btMenu div:first-child{margin: 20px auto 5px auto;}
+	
+	
+}
+
+@media screen and (max-width: 450px){
+	#menu{}
+	#menu ul li{width:calc(100%/1); } 
+	#menu ul li a{border-bottom:1px solid #05a3db}
+}
+@media screen and (max-width: 600px){
+	.bt-cdc{width:auto; padding: 10px; top:0; right:0;z-index:36; bottom:125px }
+	.bt-cdc span{display:none;}
+	}
+
+/*Domínio*/
+@media screen and (max-width: 768px){
+	.dominio{height:450px;}
+	.dominio h1{font-size:3.5rem}
+}
+@media screen and (max-width: 450px){
+	.dominio h1{font-size:2.2rem; letter-spacing: -1px;}
+	.dominio p{font-size: 1.2rem}
+	.dominio p > span{font-size:1rem}
+	.dominio h1{font-size:2rem}
+}
+
+@media screen and (max-width: 700px){
+	.formDominio input[type="submit"]{width:100%; margin-left:0; margin-top:5px; }
+	.formDominio input[type="text"]{width:48%; font-size:1rem}
+	.formDominio select{width:35%;font-size:1.2rem}
+	.formDominio .www{width:15%; font-size:0.8rem; }
+}
+@media screen and (max-width: 540px){
+	.formDominio input[type="text"]{width:98%; font-size:1.2rem}
+	.formDominio select{width:100%;font-size:1.2rem; float:right;}
+	.formDominio .www{width:100%; font-size:0.8rem; }
+	
+}
+
+/*Tipos Sites*/
+.dispositivo{display:none;}
+@media screen and (max-width: 768px){
+	.dispositivo{display:block;}
+	.Monitor{display:none;}
+}
+@media screen and (max-width: 900px){
+	.tiposites section{width:calc(100%/2); height: 400px;}
+	.explicacao p{font-size:1rem;}
+}
+@media screen and (max-width: 530px){
+	.tiposites section{width:calc(100%/1); height: 450px;}
+	#colorbox{width: 98% !important; padding-left:1% !important; padding-right:1% !important; left:0 !important;}
+	#cboxWrapper{width:100% !important ; }
+}
+
+/*Orcamento*/
+@media screen and (max-width: 400px){
+	.orcamento form p{width:97%; }
+	.orcamento input[type="submit"]{width: 97%}
+	.orcamento input, .orcamento select, .orcamento textarea{width:97%}
+}
+
+/*Evoluções*/
+@media screen and (max-width: 768px){
+	.arte{width:calc(100%/2)}
+}
+@media screen and (max-width: 500px){
+	.arte{width:calc(100%/1)}
+}
+/*Contato*/
+@media screen and (max-width: 610px){
+	.contato{height:auto}
+	.conteudocontato{height:auto}
+	.conteudocontato input, .conteudocontato select, .conteudocontato textarea{width: 98%; margin-right:0;}
+	.conteudocontato input[type="submit"]{width:100%; clear:both; float:none;}
+	.conteudocontato select{float:left !important}
+}
+
+/*Banner*/
+@media screen and (max-width: 960px){
+#vanilla-slideshow .vanilla-slide{
+	background-size:150%;
+	background-position: top center !important;
+}
+#vanilla-slideshow{
+	height: 400px !important;
+}
+#vanilla-slideshow-container{
+	height: 400px !important;
+}
+.bt-banner{
+	display:block !important;
+	bottom:0;
+	width:100%;
+	position:absolute !important;
+	top:auto !important;
+	padding: 14px 0 !important;
+	text-align: center;
+}
+}
+@media screen and (max-width: 700px){
+	#vanilla-slideshow-container{height: 350px !important;}
+	/*.bt-banner{top: 400px !important;}*/
+}
+@media screen and (max-width: 600px){
+	#vanilla-slideshow-container{height: 300px !important;}
+	/*.bt-banner{top: 300px !important;}*/
+}
+@media screen and (max-width: 500px){
+	#vanilla-slideshow-container{height: 250px !important;}
+	/*.bt-banner{top: 300px !important;}*/
+}
+@media screen and (max-width: 400px){
+	#vanilla-slideshow-container{height: 200px !important;}
+	/*.bt-banner{top: 200px !important;}*/
+	/*#vanilla-slideshow{height: 230px !important}*/
+}
+
+/*Topo Novo*/
+@media screen and (max-width: 970px){
+	.telas{ background-size: 400px; background-position: right top}
+}
+@media screen and (max-width: 800px){
+	.telas{ background-size: 300px; background-position: right top}
+}
+@media screen and (max-width: 690px){
+	.telas{display:none;}
+}
+@media screen and (max-width: 410px){
+	.imglateral{display:none;}
+	.fundo_azul{display:none;}
+	.imglogo{padding: 39px 0 0 0; width:100%; text-align:center}
+	.imglogo img{}
+}
+
+/*Menu Novo*/
+@media screen and (max-width: 480px){
+#menu2{display:none;}
+#menu2 ul li{width:100%}
+#menu2 ul li a{border-bottom:1px solid #fff;}
+#menu2 ul li:last-child a{border-bottom:none}
+.bt-resp-menu{display:block; width:100%; height:25px; background:rgba(180,180,180,1.00); position:relative; z-index:1000000; padding-top:5px}
+.bt-resp-menu div{ width: 25px; height:2px; margin: 3px auto 0 auto; background:#00a5dc; }
+}
+
+/*Rodapé*/
+@media screen and (max-width: 710px){
+.infocontato{width:100%;}
+.infocontato .email, .infocontato .telefone{width:100%; text-align:center; margin-right:0}
+}
+
+
