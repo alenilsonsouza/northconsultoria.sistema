@@ -31,9 +31,7 @@ async function handlerEmailExist(e) {
         emailInput.removeAttribute('disabled');
         alert('E-mail já cadastrado no sistema');
     }
-
 }
-
 
 async function verifycpfExist(cpf) {
     loading(true);
