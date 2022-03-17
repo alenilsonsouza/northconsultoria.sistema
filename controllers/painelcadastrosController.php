@@ -38,7 +38,89 @@ class painelcadastrosController extends controller
         $dados['page'] = "cadastros";
         $this->loadTemplateInPainel('cadastros', $dados);
     }
+    public function adicionar()
+    {
 
+        $plan = new N_PlanHandler();
+        $planos = $plan->list();
+
+        $est = new Estado();
+        $estados = $est->getEstados();
+
+        $civil = new EstadoCivil();
+        $estado_civil = $civil->getEstadoCivil();
+
+        /*echo '<pre>';
+        print_r($cliente);
+        exit;*/
+
+        $this->loadTemplateInPainel('cadastros_ver', [
+            'page' => 'cadastros',
+            'planos' => $planos,
+            'estados' => $estados,
+            'estadoCivil' => $estado_civil,
+            'linkToAction' => 'storageAddVendedor'
+        ]);
+    }
+
+    public function storageAddVendedor()
+    {
+        $nome = filter_input(INPUT_POST, 'nome');
+        $email = filter_input(INPUT_POST, 'email');
+        $nome_mae = filter_input(INPUT_POST, 'nome_mae');
+        $cpf = filter_input(INPUT_POST, 'cpf');
+        $nascimento = filter_input(INPUT_POST, 'nascimento');
+        $sexo = filter_input(INPUT_POST, 'sexo');
+        $rg = filter_input(INPUT_POST, 'rg');
+        $fixo = filter_input(INPUT_POST, 'fixo');
+        $celular = filter_input(INPUT_POST, 'celular');
+        $from = filter_input(INPUT_POST, 'from');
+        $estado_civil = filter_input(INPUT_POST, 'estado_civil');
+        $cep = filter_input(INPUT_POST, 'cep');
+        $logradouro = filter_input(INPUT_POST, 'logradouro');
+        $numero = filter_input(INPUT_POST, 'numero');
+        $complemento = filter_input(INPUT_POST, 'complemento');
+        $bairro = filter_input(INPUT_POST, 'bairro');
+        $cidade = filter_input(INPUT_POST, 'cidade');
+        $estado = filter_input(INPUT_POST, 'estado');
+
+        if ($nome) {
+
+            $people = new N_People();
+            $peopleHandler = new N_PeopleHandler();
+            $people->setIdPeople(NULL);
+            $people->setIdPlan(NULL);
+            $people->setName($nome);
+            $people->setEmail($email);
+            $people->setMotherName($nome_mae);
+            $people->setCpf($cpf);
+            $people->setBirthDate($nascimento);
+            $people->setSexo($sexo);;
+            $people->setRg($rg);
+            $people->setTelFix($fixo);
+            $people->setTelCel($celular);
+            $people->setMaritalStatus($estado_civil);
+            $people->setTypeReister('C');
+            $people->setFrom($from);
+            $id_people = $peopleHandler->insert($people);
+
+            $address = new N_Address();
+            $addressHandler = new N_AddressHandler();
+
+            $address->setIdPeople($id_people);
+            $address->setCep($cep);
+            $address->setLogradouro($logradouro);
+            $address->setNumero($numero);
+            $address->setComplemento($complemento);
+            $address->setBairro($bairro);
+            $address->setCidade($cidade);
+            $address->setEstado($estado);
+            $addressHandler->insert($address);
+
+            Redirect::link('painelcadastros');
+            
+        }
+    }
     public function ver($id)
     {
         $pessoa = new N_PeopleHandler();
@@ -66,7 +148,8 @@ class painelcadastrosController extends controller
             'planos' => $planos,
             'estados' => $estados,
             'estadoCivil' => $estado_civil,
-            'typeFiles' => $typeFiles
+            'typeFiles' => $typeFiles,
+            'linkToAction' => 'storageCliente'
         ]);
     }
 
@@ -149,7 +232,8 @@ class painelcadastrosController extends controller
         exit;
     }
 
-    public function deleteDocument($id) {
+    public function deleteDocument($id)
+    {
         $id_people = filter_input(INPUT_GET, 'id_cliente');
 
         $file = new N_File();
@@ -304,7 +388,7 @@ class painelcadastrosController extends controller
         $pagina = filter_input(INPUT_GET, 'pagina');
         $people = new N_PeopleHandler();
         $people->delete($id);
-        
+
         if ($pagina) {
             header('Location:' . BASE_URL . 'painelcadastros/' . $pagina);
             exit;

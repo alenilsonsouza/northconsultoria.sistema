@@ -28,6 +28,7 @@ $configuracoes = $c->getArray();
   <!--Material Design-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/materialize.min.js"></script>
+  <script src="<?=BASE_URL;?>assets/js/Controllers/Loading.js" defer></script>
   <?php
 	/**
 	 * Importação de JS de APIS */
@@ -35,12 +36,10 @@ $configuracoes = $c->getArray();
 	?>
 
 <body>
-  <div class="carregando">
-    <div class="carregando--conteudo">
-      <div class="texto">Por favor, aguarde!<br>Estamos processando o seu pedido.</div>
-      <div class="efeito">
-        <div class="barra"></div>
-      </div>
+  <div class="loading">
+    <div class="loading-content">
+      <div class="loading-text">Por favor, aguarde!<br>Estamos processando o seu pedido.</div>
+      <div class="loading-effect"></div>
     </div>
   </div>
   <div class="container-fluid">
@@ -93,7 +92,6 @@ $configuracoes = $c->getArray();
   <div class="both"></div>
   <script src="<?php echo BASE_URL; ?>assets/js/jquery-3.4.1.min.js"></script>
   <script src="<?php echo BASE_URL; ?>assets/js/script_painel.js"></script>
-  <script src="<?php echo BASE_URL; ?>assets/js/Controllers/Carregando.js"></script>
 
 </body>
 

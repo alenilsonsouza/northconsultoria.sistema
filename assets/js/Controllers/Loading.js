@@ -15,3 +15,4 @@ function loading(bool) {
         })
     }
 }
+loading(false);
