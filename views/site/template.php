@@ -71,7 +71,7 @@ $site = $s->getArray();
 							<a href="<?= BASE_URL; ?>nossosprodutos" class="<?= $viewData['page'] == 'nossosprodutos' ? 'active' : ''; ?>">Nossos Produtos</a>
 						</li>
 						<li>
-							<a href="<?= BASE_URL; ?>parceiros" class="<?= $viewData['page'] == 'parceiros' ? 'active' : ''; ?>">Parceiros</a>
+							<a href="<?= BASE_URL; ?>parceiros" class="<?= $viewData['page'] == 'parceiros' ? 'active' : ''; ?>">Cartão I`m North</a>
 						</li>
 						<!--<li>
 							<a href="<?= BASE_URL; ?>cartaoImNorth" class="<?= $viewData['page'] == 'cartaoImNorth' ? 'active' : ''; ?>">Cartão I`m North</a>
