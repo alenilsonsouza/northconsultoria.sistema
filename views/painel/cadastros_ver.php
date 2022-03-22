@@ -38,17 +38,17 @@
     <form action="<?= BASE_URL; ?>painelcadastros/<?=$linkToAction;?>" method="post" class="col s12">
         <div class="row">
         <div class="input-field col s4">
-                <input type="tel" name="cpf" id="cpf" value="<?= $cliente['cpf'] ?? ''; ?>" <?=isset($cliente['name'])?'readonly':'';?>>
+                <input type="tel" name="cpf" id="cpf" value="<?= $cliente['cpf'] ?? ''; ?>" <?=isset($cliente['name'])?'readonly':'';?> required>
                 <label for="cpf">CPF:</label>
             </div>
             
             <div class="input-field col s4">
                 <input type="text" name="email" id="email" value="<?= $cliente['email'] ?? ''; ?>">
-                <label for="email">E-mail:</label>
+                <label for="email" required>E-mail:</label>
             </div>
             
             <div class="input-field col s4">
-                <input type="text" name="nome" id="nome" value="<?= $cliente['name'] ?? ''; ?>">
+                <input type="text" name="nome" id="nome" value="<?= $cliente['name'] ?? ''; ?>" required>
                 <label for="nome">Nome:</label>
             </div>
             <div class="input-field col s6">

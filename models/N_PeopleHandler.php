@@ -6,8 +6,8 @@ class N_PeopleHandler extends model
     public function insert(N_People $people)
     {
         $sql = "INSERT INTO {$this->table} 
-        (id_people, id_plan, `name`, mother_name, email, tel_fix, tel_cel, birthdate, cpf, rg, `from`, sexo, marital_status, type_register) 
-        VALUES (:id_people, :id_plan, :name, :mother_name, :email, :tel_fix, :tel_cel, :birthdate, :cpf, :rg, :from, :sexo, :marital_status, :type_register)";
+        (id_people, id_plan, `name`, mother_name, email, tel_fix, tel_cel, birthdate, cpf, rg, `from`, sexo, marital_status, type_register, date_register) 
+        VALUES (:id_people, :id_plan, :name, :mother_name, :email, :tel_fix, :tel_cel, :birthdate, :cpf, :rg, :from, :sexo, :marital_status, :type_register, :date_register)";
         $sql = $this->db->prepare($sql);
         echo '<pre>';
         var_dump($people);
@@ -25,7 +25,8 @@ class N_PeopleHandler extends model
             'from' => $people->getFrom(),
             'sexo' => $people->getSexo(),
             'marital_status' => $people->getMaritalStatus(),
-            'type_register' => $people->getTypeReister()
+            'type_register' => $people->getTypeReister(),
+            'date_register' => date('Y-m-d')
         ]);
 
         $id = $this->db->lastInsertId();

@@ -64,7 +64,12 @@ class homeController extends controller
 
   public function addClientAsaasInHome()
   {
-    
+    /**
+     * - Cadastro de boleto no Asass
+     * - Recebe as informações via POST vindas do formulário de cadastro
+     * - É feita a requisição via POST para o Asaas
+     */
+
     // Pega dados do formulário
     $cpf = filter_input(INPUT_POST, 'cpf');
     $email = filter_input(INPUT_POST, 'email');
@@ -129,29 +134,19 @@ class homeController extends controller
         $idAsaas = $response->id;
         $people = new N_PeopleHandler();
         $people->updateIdAsaas($idAsaas, $id_client);
-
-        /**
-         * Cadastramento no Asaas o primeiro boleto (valor do plano + 20 reais de taxa de adesão)
-         * -- Se o cadastro for <= dia 5, colocar o primeiro vencimento para o dia 15 do mesmo mês, senão para o mês seguinte
-         */
-
-        $today = date('d');
+        
+        // Dia de vencimento dos boletos subsequentes
         $dueDay = 15;
+
+        // Captura da data de hoje
+        $today = date('d');
         $currentMonth = date('m');
         $currentYear = date('Y');
-        $dueDate = '';
-        if ($today <= 5) {
-          $dueDate = $currentYear . '-' . $currentMonth . '-' . $dueDay;
-        } else {
-          if ($currentMonth == 12) {
-            $currentMonth = date('m', strtotime('+1 month'));
-            $currentYear = date('Y', strtotime('+1 month'));
-          }
-          $dueDate = $currentYear . '-' . $currentMonth . '-' . $dueDay;
-        }
 
-        // gera informações para o primeiro boleto com o valor do plano + Taxa de Adesão (20 reais)
+        // Vencimento um dia após o cadastro (Valor Plano + Taxa)
+        $dueDate = $currentYear . '-' . $currentMonth . '-' . date('d', strtotime('+ 1 day'));
 
+        // Gera informações para o primeiro boleto com o valor do plano + Taxa de Adesão (20 reais)
         $bulletValue = floatval($planValue) + 20;
         $bulletDesc = $planName . ' + Taxa de Adesão';
 
@@ -177,15 +172,21 @@ class homeController extends controller
 
         $asaas->createPayment($data);
 
-        /**
-         * Cadastra a assinatura  com o valor do plano
-         */
+        // Cadastra a assinatura  com o valor do plano
+        // Verifica se o vencimento será no mesmo mês ou no mês posterior
+        if ($today <= 5) {
+          $dueDate = $currentYear . '-' . $currentMonth . '-' . $dueDay;
+        } else {
+          $currentMonth = date('m', strtotime('+1 month'));
+          $currentYear = date('Y', strtotime('+1 month'));
+          $dueDate = $currentYear . '-' . $currentMonth . '-' . $dueDay;
+        }
 
-        $nextDue = date('Y-m-d', strtotime('+1 month', strtotime($dueDate)));
+        // $nextDue = date('Y-m-d', strtotime('+1 month', strtotime($dueDate))); (Obsoleo)
         $data = "{
                 \"customer\": \"$idAsaas\",
                 \"billingType\": \"BOLETO\",
-                \"nextDueDate\": \"$nextDue\",
+                \"nextDueDate\": \"$dueDate\",
                 \"value\": $planValue,
                 \"cycle\": \"MONTHLY\",
                 \"description\": \"$planName\",

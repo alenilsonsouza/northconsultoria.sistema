@@ -12,7 +12,7 @@ $site = $s->getArray();
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="<?= $viewData['template']['site']['titulo']; ?>">
 	<meta property="og:description" content="<?= $viewData['template']['site']['descricao']; ?>">
-	<meta property="og:image" content="https:<?= BASE_URL; ?>assets/images/post.png">
+	<meta property="og:image" content="https:<?= BASE_URL; ?>assets/images/logo.jpeg">
 
 	<meta name="description" content="<?= $viewData['template']['site']['descricao']; ?>">
 	<meta name="keywords" content="<?= $viewData['template']['site']['palavra_chave']; ?>">
@@ -73,14 +73,17 @@ $site = $s->getArray();
 						<li>
 							<a href="<?= BASE_URL; ?>parceiros" class="<?= $viewData['page'] == 'parceiros' ? 'active' : ''; ?>">Cartão I`m North</a>
 						</li>
-						<!--<li>
-							<a href="<?= BASE_URL; ?>cartaoImNorth" class="<?= $viewData['page'] == 'cartaoImNorth' ? 'active' : ''; ?>">Cartão I`m North</a>
-						</li>-->
 						<li>
 							<a href="<?= BASE_URL; ?>contato" class="<?= $viewData['page'] == 'contato' ? 'active' : ''; ?>">Contato</a>
 						</li>
 					</ul>
 				</div>
+
+			</div>
+			<div class="btnMobile" onclick="toggleMenu();">
+				<div></div>
+				<div></div>
+				<div></div>
 			</div>
 		</div>
 	</header>
@@ -149,6 +152,7 @@ $site = $s->getArray();
 	<script src="<?php echo BASE_URL_SCRIPT; ?>script.js"></script>
 	<script src="<?php echo BASE_URL_SCRIPT; ?>modal.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Loading.js"></script>
+	<script src="<?= BASE_URL; ?>assets/js/Controllers/Menu.js"></script>
 	<link rel="stylesheet" href="<?php echo BASE_URL_CSS; ?>vanillaSlideshow.css">
 	<script language="JavaScript" type="text/javascript" src="<?php echo BASE_URL_SCRIPT; ?>MascaraValidacao.js"></script>
 	<?php echo $site['scripts']; ?>

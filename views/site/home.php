@@ -26,7 +26,7 @@
 				<?php endforeach;?>
 			</div>
 			<div class="right">
-				...
+				<img src="<?=BASE_URL;?>assets/images/banner_home.jpg" alt="">
 			</div>
 		</div>
 	</div>
