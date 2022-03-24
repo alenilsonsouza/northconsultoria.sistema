@@ -205,6 +205,21 @@ class N_PeopleHandler extends model
         return $item['t'];
     }
 
+    public function verifySenderExists($id) {
+        $array = [];
+        $sql = "SELECT id, name FROM {$this->table} WHERE id = :id AND type_register = 'C'";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            'id' => $id
+        ]);
+
+        if($sql->rowCount()>0) {
+            $array = $sql->fetch();
+        }
+
+        return $array;
+    }
+
     private function listHandler($type, $list)
     {
         /**

@@ -7,9 +7,25 @@ class homeController extends controller
     parent::__construct();
   }
 
-  public function index()
+  public function index($id = NULL)
   {
-    $dados = array();
+    $dados = [];
+
+    // Verifica se o vendedor existe e cria sessão com informações do vendedor caso exista.
+    if($id) {
+      $people = new N_PeopleHandler();
+      $total = count($people->verifySenderExists($id));
+      if($total > 0) {
+        $item = $people->verifySenderExists($id);
+        $_SESSION['sender'] = [
+          'id' => $item['id'],
+          'name' => $item['name']
+        ];
+      } else {
+        unset($_SESSION['sender']);
+      }
+    }
+
     $dados['flash'] = '';
     if (!empty($_SESSION['flash'])) {
       $dados['flash'] = $_SESSION['flash'];
@@ -37,6 +53,11 @@ class homeController extends controller
 
 
     $this->loadTemplate('home', $dados);
+  }
+
+  public function vendedor($id) {
+    // URL amigável para usuários informar o id do vendedor
+    Redirect::link('home/index/'.$id);
   }
 
   public function storageContato()

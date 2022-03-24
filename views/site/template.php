@@ -87,6 +87,10 @@ $site = $s->getArray();
 			</div>
 		</div>
 	</header>
+	<?php if(isset($_SESSION['sender'])): // verifica o vendedor pelo id informado no link ?>
+		<div class="senderName">Vendedor(a): <?=$_SESSION['sender']['name'];?> (Cód.: <?=$_SESSION['sender']['id'];?>)</div>
+	<?php endif;?>
+	
 	<?php $this->loadViewInTemplate($viewName, $viewData); ?>
 	<footer class="footer">
 		<div class="container">
@@ -148,7 +152,6 @@ $site = $s->getArray();
 			<img src="<?= BASE_URL_IMAGE; ?>loading.gif" alt="">
 		</div>
 	</div>
-	<!--<script src="<?php echo BASE_URL_SCRIPT; ?>jquery-3.4.1.min.js"></script>-->
 	<script src="<?php echo BASE_URL_SCRIPT; ?>script.js"></script>
 	<script src="<?php echo BASE_URL_SCRIPT; ?>modal.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Loading.js"></script>

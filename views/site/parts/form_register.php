@@ -152,7 +152,7 @@
 
         </div>
         <div>
-            <input type="hidden" value="" name="id_corretor" id="id_corretor" />
+            <input type="hidden" value="<?=isset($_SESSION['sender']['id'])?$_SESSION['sender']['id']:'';?>" name="id_corretor" id="id_corretor" />
             <input type="hidden" value="" name="id_plan" id="id_plan" />
             <input type="hidden" value="" name="id_client" id="id_client">
             <input type="hidden" value="" name="planValue" id="planValue">
@@ -161,5 +161,5 @@
         </div>
     </form>
 </div>
-<script src="<?= BASE_URL; ?>assets/js/Controllers/Register.js"></script>
+<script src="<?= BASE_URL; ?>assets/js/Controllers/Register.js" defer></script>
 <script src="<?= BASE_URL; ?>assets/js/Controllers/Cep.js"></script>

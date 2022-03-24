@@ -709,6 +709,12 @@ strong {
         height: 350px;
     }
 }
+.senderName {
+    padding: 15px 0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+}
 .parceiros_redes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

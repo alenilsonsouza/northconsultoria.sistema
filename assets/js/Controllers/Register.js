@@ -11,6 +11,7 @@ const cpfInput = document.querySelectorAll('.cpfInput');
 const emailInput = document.querySelector('.emailInput');
 const enabledDisabledInpus = document.querySelectorAll('.input-enableDisabled');
 const idClient = document.querySelector('#id_client');
+const idCorretor = document.querySelector('#id_corretor');
 
 formSearchCorretor.addEventListener('submit', submitFormCorretor);
 noCorretoEl.addEventListener('change', changeNoCorretor);
@@ -21,6 +22,12 @@ emailInput.addEventListener('blur', verifyEmailInput)
 cpfInput.forEach(item => {
     item.addEventListener('keyup', verifyCPFInput);
 });
+
+// Verifica se o Id corretor está preenchido
+if(parseInt(idCorretor.value) > 0) {
+    let id = parseInt(idCorretor.value);
+    getOne(id, 'C');
+} 
 
 enabledDisabledInpus.forEach(item => {
     enableDisableInput(item, true);
