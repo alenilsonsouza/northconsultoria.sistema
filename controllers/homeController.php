@@ -12,10 +12,10 @@ class homeController extends controller
     $dados = [];
 
     // Verifica se o vendedor existe e cria sessão com informações do vendedor caso exista.
-    if($id) {
+    if ($id) {
       $people = new N_PeopleHandler();
       $total = count($people->verifySenderExists($id));
-      if($total > 0) {
+      if ($total > 0) {
         $item = $people->verifySenderExists($id);
         $_SESSION['sender'] = [
           'id' => $item['id'],
@@ -55,9 +55,10 @@ class homeController extends controller
     $this->loadTemplate('home', $dados);
   }
 
-  public function vendedor($id) {
+  public function vendedor($id)
+  {
     // URL amigável para usuários informar o id do vendedor
-    Redirect::link('home/index/'.$id);
+    Redirect::link('home/index/' . $id);
   }
 
   public function storageContato()
@@ -113,6 +114,25 @@ class homeController extends controller
       print_r($_POST);
       echo '</pre>';*/
 
+    // Total de dependentes
+    $n = 0;
+    if (isset($_POST['depentent_name'][0])) {
+      $names = $_POST['depentent_name'];
+      foreach ($names as $name) {
+        if ($name) {
+          $n++;
+        }
+      }
+    }
+    $dependentTotal = $n;
+
+    // Cálculo para dependentes
+    $dependentValueUnique = $planValue - ($planValue * 0.10);
+    $dependentValueTotal = $dependentValueUnique * $dependentTotal;
+
+    // Soma do plano (Titular + Dependentes)
+    $priceTotal = floatval($planValue + $dependentValueTotal);
+
     if ($fullName && $email && $planName) {
       // Prepara os dados do cliente para a Requisição no Asaas
       $data = "{
@@ -149,13 +169,12 @@ class homeController extends controller
         exit;
       }
 
-
       if ($response->id) {
         // Atualiza o id do Asaas no sistema
         $idAsaas = $response->id;
         $people = new N_PeopleHandler();
         $people->updateIdAsaas($idAsaas, $id_client);
-        
+
         // Dia de vencimento dos boletos subsequentes
         $dueDay = 15;
 
@@ -167,9 +186,9 @@ class homeController extends controller
         // Vencimento um dia após o cadastro (Valor Plano + Taxa)
         $dueDate = $currentYear . '-' . $currentMonth . '-' . date('d', strtotime('+ 1 day'));
 
-        // Gera informações para o primeiro boleto com o valor do plano + Taxa de Adesão (20 reais)
-        $bulletValue = floatval($planValue) + 20;
-        $bulletDesc = $planName . ' + Taxa de Adesão';
+        // Gera informações para o primeiro boleto com o valor do plano total + Taxa de Adesão (20 reais)
+        $bulletValue = $priceTotal + 20;
+        $bulletDesc = $planName." - {$dependentTotal} Dependentes + Taxa de Adesão (R$ 20,00)";
 
         $data = "{
                 \"customer\": \"$idAsaas\",
@@ -203,14 +222,14 @@ class homeController extends controller
           $dueDate = $currentYear . '-' . $currentMonth . '-' . $dueDay;
         }
 
-        // $nextDue = date('Y-m-d', strtotime('+1 month', strtotime($dueDate))); (Obsoleo)
+        $descBullet = $planName." - {$dependentTotal} Dependentes";
         $data = "{
                 \"customer\": \"$idAsaas\",
                 \"billingType\": \"BOLETO\",
                 \"nextDueDate\": \"$dueDate\",
-                \"value\": $planValue,
+                \"value\": $priceTotal,
                 \"cycle\": \"MONTHLY\",
-                \"description\": \"$planName\",
+                \"description\": \"$descBullet\",
                 \"discount\": {
                   \"value\": 0,
                   \"dueDateLimitDays\": 0

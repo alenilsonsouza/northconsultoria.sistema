@@ -16,7 +16,35 @@
     <div class="result--corretor" id="result--corretor">
 
     </div>
-    <form action="<?=BASE_URL;?>home/addClientAsaasInHome" method="post" class="form_default" id="form-register" enctype="multipart/form-data">
+    <form action="<?= BASE_URL; ?>home/addClientAsaasInHome" method="post" class="form_default" id="form-register" enctype="multipart/form-data">
+        <div class="typeRegister">
+            <label for="tipo_cadastro">Escolha o tipo de cadastro</label>
+            <select name="tipo_cadastro" id="tipo_cadastro">
+                <option value="1">Individual</option>
+                <option value="2">Empresarial</option>
+            </select>
+        </div>
+        <div class="bussinessInput">
+            <h3>Dados empresariais</h3>
+            <div class="grid grid-3">
+                <div>
+                    <label for="cnpj">CNPJ:*</label>
+                    <input type="tel" name="cnpj" id="cnpj" onkeyup="mascara('##.###.###/####-##',this,event,true);">
+                </div>
+                <div>
+                    <label for="razao_social">Razão Social:*</label>
+                    <input type="text" name="razao_social" id="razao_social">
+                </div>
+                <div>
+                    <label for="nome_fantasia">Nome Fantasia:*</label>
+                    <input type="text" name="nome_fantasia" id="nome_fantasia">
+                </div>
+                <div>
+                    <label for="data_abertura">Data Abertura da empresa:*</label>
+                    <input type="date" name="data_abertura" id="data_abertura">
+                </div>
+            </div>
+        </div>
         <h3>Dados pessoais</h3>
         <div class="grid grid-3">
             <div>
@@ -152,7 +180,7 @@
 
         </div>
         <div>
-            <input type="hidden" value="<?=isset($_SESSION['sender']['id'])?$_SESSION['sender']['id']:'';?>" name="id_corretor" id="id_corretor" />
+            <input type="hidden" value="<?= isset($_SESSION['sender']['id']) ? $_SESSION['sender']['id'] : ''; ?>" name="id_corretor" id="id_corretor" />
             <input type="hidden" value="" name="id_plan" id="id_plan" />
             <input type="hidden" value="" name="id_client" id="id_client">
             <input type="hidden" value="" name="planValue" id="planValue">

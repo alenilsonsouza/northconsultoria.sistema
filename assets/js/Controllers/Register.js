@@ -12,17 +12,20 @@ const emailInput = document.querySelector('.emailInput');
 const enabledDisabledInpus = document.querySelectorAll('.input-enableDisabled');
 const idClient = document.querySelector('#id_client');
 const idCorretor = document.querySelector('#id_corretor');
+const typeRegisterSelect = document.querySelector('#tipo_cadastro');
+const bussinessInputArea = document.querySelector('.bussinessInput');
 
 formSearchCorretor.addEventListener('submit', submitFormCorretor);
 noCorretoEl.addEventListener('change', changeNoCorretor);
 btAddDependente.addEventListener('click', addDependente);
 formRegister.addEventListener('submit', registerData);
-emailInput.addEventListener('blur', verifyEmailInput)
+emailInput.addEventListener('blur', verifyEmailInput);
+typeRegisterSelect.addEventListener('change', handlerChangeRegister)
 
 cpfInput.forEach(item => {
     item.addEventListener('keyup', verifyCPFInput);
 });
-
+bussinessInputArea.style.display = 'none';
 // Verifica se o Id corretor está preenchido
 if(parseInt(idCorretor.value) > 0) {
     let id = parseInt(idCorretor.value);
@@ -53,6 +56,14 @@ async function verifyCPFInput(e) {
             elem.style.border = '4px solid red';
             formatWarningHandler(warning, true, 'CPF já cadastrado no sistema.')
         }
+    }
+}
+function handlerChangeRegister(e) {
+    let type = parseInt(e.target.value);
+    if(type === 1) {
+        bussinessInputArea.style.display = 'none';
+    } else {
+        bussinessInputArea.style.display = 'block';
     }
 }
 async function verifyEmailInput(e) {
@@ -121,6 +132,19 @@ async function registerData(e) {
         marital_status: formData.get('marital_status'),
         type_register: 'T',
         kinship: ''
+    }
+
+    if(parseInt(formData.get('tipo_cadastro')) === 2) {
+        // Preencher caso esteja selecionado empresarial
+        let BussinessData = {
+            cnpj: formData.get('cnpj'),
+            corporate_name: formData.get('razao_social'),
+            fantasy_name: formData.get('nome_fantasia'),
+            opening_date: formData.get('data_abertura'),
+        }
+
+        data = Object.assign(data, BussinessData);
+
     }
 
     let registerPostId = await registerPost(data);
@@ -228,7 +252,6 @@ async function registerData(e) {
     if (confirm) {
         idClient.value = registerPostId;
 
-        // obsoleto...
         formRegister.submit();
 
         // novo...
@@ -262,7 +285,8 @@ function addDependente() {
                 <div class="bt-remove" data-btn="${n}">Remover</div>
                 <div>
                     <label for="d_name">Nome:</label>
-                    <input type="text" name="d_name" id="d_name${n}">
+                    <input type="text" name="d_name" id="d_name${n}" data-id="${n}">
+                    <input type="hidden" value="" name="depentent_name[]" id="depentent_name${n}" />
                 </div>
                 <div>
                     <label for="d_motherName">Nome da mãe:</label>
@@ -313,6 +337,18 @@ function addDependente() {
     divEl.innerHTML = html;
     formDependenteArea.appendChild(divEl);
     handleremoveDependente();
+
+    // Cria um elemento oculto clonando o nome digitado para ser enviar via post para o PHP
+    let dNameEl = document.querySelectorAll('[name="d_name"]');
+    dNameEl.forEach((item)=>{
+        let id = item.getAttribute('data-id');
+        item.addEventListener('keyup', (e)=> {
+            let newName = e.target.value;
+            let destEl = e.target.parentNode.querySelector(`#depentent_name${id}`);
+            destEl.value = newName;
+
+        })
+    })
 }
 
 function handleremoveDependente() {
