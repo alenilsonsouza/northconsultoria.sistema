@@ -8,7 +8,7 @@ async function handlerCPFExist(e) {
     let cpf = e.target.value;
     if (cpf.length === 14) {
         let result = await verifycpfExist(cpf);
-
+        
         let inputEls = document.querySelectorAll('input, select, button');
         disabledInputForm(inputEls, 'OFF');
         if (result.response === true) {
@@ -21,7 +21,6 @@ async function handlerCPFExist(e) {
 
 async function handlerEmailExist(e) {
     let email = e.target.value;
-    console.log(email);
     let result = await verifyEmailExist(email);
 
     let inputEls = document.querySelectorAll('input, select, button');

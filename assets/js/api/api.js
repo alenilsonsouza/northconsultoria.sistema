@@ -59,7 +59,7 @@ const Api = {
         return json;
     },
     verifyEmailExists: async (email) => {
-        let json = await request('get', `/verifyemail/${email}`, {}, null);
+        let json = await request('post', `/verifyemail`, {email}, null);
         return json;
     },
     addAddress: async (data) => {

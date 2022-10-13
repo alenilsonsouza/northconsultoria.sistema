@@ -7,7 +7,7 @@ $site = $s->getArray();
 
 <head>
 	<meta charset="utf-8" />
-	<title><?php echo $site['titulo']; ?></title>
+	<title><?=$site['titulo']; ?></title>
 	<meta property="og:url" content="https:<?= BASE_URL; ?>">
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="<?= $viewData['template']['site']['titulo']; ?>">
@@ -20,7 +20,7 @@ $site = $s->getArray();
 
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="<?php echo AUTOR; ?>">
+	<meta name="author" content="<?=AUTOR; ?>">
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" href="<?= BASE_URL_IMAGE; ?>favicon.png" type="image/x-icon">
 	<link rel="stylesheet" href="<?= BASE_URL; ?>assets/css/north.css">
@@ -30,7 +30,6 @@ $site = $s->getArray();
 	 * Importação de JS de APIS */
 	require 'views/includes/jsimport.php';
 	?>
-
 </head>
 
 <body>
@@ -43,7 +42,7 @@ $site = $s->getArray();
 					</a>
 				</div>
 			</div>
-			<div class="right">
+			<div class="right no-print">
 				<div class="menu menu1">
 					<ul>
 						<li>
@@ -71,7 +70,7 @@ $site = $s->getArray();
 							<a href="<?= BASE_URL; ?>nossosprodutos" class="<?= $viewData['page'] == 'nossosprodutos' ? 'active' : ''; ?>">Nossos Produtos</a>
 						</li>
 						<li>
-							<a href="<?= BASE_URL; ?>parceiros" class="<?= $viewData['page'] == 'parceiros' ? 'active' : ''; ?>">Cartão I`m North</a>
+							<a href="<?= BASE_URL; ?>parceiros" class="<?= $viewData['page'] == 'parceiros' ? 'active' : ''; ?>">Cartão MedCard</a>
 						</li>
 						<li>
 							<a href="<?= BASE_URL; ?>contato" class="<?= $viewData['page'] == 'contato' ? 'active' : ''; ?>">Contato</a>
@@ -80,7 +79,7 @@ $site = $s->getArray();
 				</div>
 
 			</div>
-			<div class="btnMobile" onclick="toggleMenu();">
+			<div class="btnMobile no-print" onclick="toggleMenu();">
 				<div></div>
 				<div></div>
 				<div></div>
@@ -92,7 +91,7 @@ $site = $s->getArray();
 	<?php endif;?>
 	
 	<?php $this->loadViewInTemplate($viewName, $viewData); ?>
-	<footer class="footer">
+	<footer class="footer no-print">
 		<div class="container">
 			<div class="column menu3">
 				<ul>
@@ -108,6 +107,9 @@ $site = $s->getArray();
 					</li>
 					<li>
 						<a href="<?= BASE_URL; ?>contato" class="<?= $viewData['page'] == 'contato' ? 'active' : ''; ?>">Contato</a>
+					</li>
+					<li>
+						<a href="<?= BASE_URL; ?>adesaotermo" class="<?= $viewData['page'] == 'contato' ? 'active' : ''; ?>">Termo de Adesão</a>
 					</li>
 				</ul>
 			</div>
@@ -134,8 +136,8 @@ $site = $s->getArray();
 		</div>
 	</footer>
 
-	<div class="whatsapp">
-		<a href="https://api.whatsapp.com/send?phone=5527999156105" target="_blank">
+	<div class="whatsapp no-print">
+		<a href="<?=WHATSAPP;?>" target="_blank">
 			<img src="<?= BASE_URL_IMAGE; ?>whatsapp_footer.png" alt="">
 		</a>
 	</div>
@@ -156,9 +158,9 @@ $site = $s->getArray();
 	<script src="<?php echo BASE_URL_SCRIPT; ?>modal.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Loading.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Menu.js"></script>
-	<link rel="stylesheet" href="<?php echo BASE_URL_CSS; ?>vanillaSlideshow.css">
+	<link rel="stylesheet" href="<?=BASE_URL_CSS; ?>vanillaSlideshow.css">
 	<script language="JavaScript" type="text/javascript" src="<?php echo BASE_URL_SCRIPT; ?>MascaraValidacao.js"></script>
-	<?php echo $site['scripts']; ?>
+	<?=$site['scripts']; ?>
 </body>
 
 </html>

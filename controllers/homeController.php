@@ -93,12 +93,24 @@ class homeController extends controller
      */
 
     // Pega dados do formulário
-    $cpf = filter_input(INPUT_POST, 'cpf');
-    $email = filter_input(INPUT_POST, 'email');
-    $fullName = filter_input(INPUT_POST, 'fullName');
-    $tel_fixed = filter_input(INPUT_POST, 'tel_fixed');
-    $tel_cel = filter_input(INPUT_POST, 'tel_cel');
 
+    // Se o Responsável Financeiro for outro
+    $financialResponsible = filter_input(INPUT_POST, 'financial_responsible');
+    if ($financialResponsible == 2) {
+      $cpf = filter_input(INPUT_POST, 'fr_cpf');
+      $email = filter_input(INPUT_POST, 'fr_email');
+      $fullName = filter_input(INPUT_POST, 'fr_name');
+      $tel_fixed = filter_input(INPUT_POST, 'fr_tel_cel');
+      $tel_cel = filter_input(INPUT_POST, 'fr_tel_cel');
+    } else {
+      $cpf = filter_input(INPUT_POST, 'cpf');
+      $email = filter_input(INPUT_POST, 'email');
+      $fullName = filter_input(INPUT_POST, 'fullName');
+      $tel_fixed = filter_input(INPUT_POST, 'tel_fixed');
+      $tel_cel = filter_input(INPUT_POST, 'tel_cel');
+    }
+
+    // Informações de endereço
     $cep = filter_input(INPUT_POST, 'cep');
     $logradouro = filter_input(INPUT_POST, 'logradouro');
     $numero = filter_input(INPUT_POST, 'numero');
@@ -127,8 +139,7 @@ class homeController extends controller
     $dependentTotal = $n;
 
     // Cálculo para dependentes
-    $dependentValueUnique = $planValue - ($planValue * 0.10);
-    $dependentValueTotal = $dependentValueUnique * $dependentTotal;
+    $dependentValueTotal = CalcComissionHandler::calc($planValue, $dependentTotal);
 
     // Soma do plano (Titular + Dependentes)
     $priceTotal = floatval($planValue + $dependentValueTotal);
@@ -160,16 +171,7 @@ class homeController extends controller
 
       // var_dump($response);
 
-      if ($response->errors) {
-        foreach ($response->errors as $k => $v) {
-          $item = $response->errors[$k];
-          echo $item['description'] . '</br>';
-        }
-        echo '<a href="' . BASE_URL . '">Voltar</a>';
-        exit;
-      }
-
-      if ($response->id) {
+      if (isset($response->id)) {
         // Atualiza o id do Asaas no sistema
         $idAsaas = $response->id;
         $people = new N_PeopleHandler();
@@ -188,7 +190,7 @@ class homeController extends controller
 
         // Gera informações para o primeiro boleto com o valor do plano total + Taxa de Adesão (20 reais)
         $bulletValue = $priceTotal + 20;
-        $bulletDesc = $planName." - {$dependentTotal} Dependentes + Taxa de Adesão (R$ 20,00)";
+        $bulletDesc = $planName . " - {$dependentTotal} Dependentes + Taxa de Adesão (R$ 20,00)";
 
         $data = "{
                 \"customer\": \"$idAsaas\",
@@ -222,7 +224,7 @@ class homeController extends controller
           $dueDate = $currentYear . '-' . $currentMonth . '-' . $dueDay;
         }
 
-        $descBullet = $planName." - {$dependentTotal} Dependentes";
+        $descBullet = $planName . " - {$dependentTotal} Dependentes";
         $data = "{
                 \"customer\": \"$idAsaas\",
                 \"billingType\": \"BOLETO\",
@@ -243,10 +245,25 @@ class homeController extends controller
               }";
 
         $asaas->createSubcription($data);
+        $_SESSION['flash'] = 'Cadastro realizado com sucesso!';
+
+        if (ENVIRONMENT == 'production') {
+          // Envio do link do Termo de Adesão
+          $e = new Email();
+          $e->setNome($fullName . ' (' . $cpf . ')');
+          $e->setEmail($email);
+          $e->setAssunto('Termos de aceite');
+          $e->setLink(BASE_URL . 'adesaotermo/client/' . md5($id_client));
+          $e->sendLinkTermToClient();
+        }
+      } else {
+        $warning = 'Cadastro gerado no sitema local, mas não foi possível gerar os boletos. Favor entrar em contato com o administrador do sistema.';
+        $text = '';
+        if ($response->errors) {
+          $text = print_r($response->errors, true);
+        }
+        $_SESSION['flash'] = $warning . '<br>' . $text;
       }
-
-      $_SESSION['flash'] = 'Cadastro realizado com sucesso!';
-
       Redirect::home();
     }
   }

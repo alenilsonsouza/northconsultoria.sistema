@@ -60,30 +60,45 @@ class ajaxController extends controller
         }
     }
 
+    public function relatoriovendas() {
+        
+        $costumer = filter_input(INPUT_GET, 'costumer');
+        $startDate = filter_input(INPUT_GET, 'startDate');
+        $finalDate = filter_input(INPUT_GET, 'finalDate');
+
+        if($costumer && $startDate && $finalDate) {
+
+            $people = new N_PeopleHandler();
+            $clientes = $people->listClientByConstumer($costumer, $startDate, $finalDate);
+
+            $this->loadViewInPainel('cadastros_listClients', [
+                'clientes' => $clientes
+            ]);
+        }
+    }
+
     public function cadastroList()
     {
-        $p = filter_input(INPUT_GET,'pagina');
-        $pesquisa = filter_input(INPUT_GET,'pesquisa');
+        $p = filter_input(INPUT_GET, 'pagina');
+        $pesquisa = filter_input(INPUT_GET, 'pesquisa');
         $pessoa = new N_PeopleHandler();
 
         $limit = 20;
-
-        $total = count($pessoa->list('T','','','')); 
-
-        $paginas = ceil($total/$limit);
+        $total = count($pessoa->list('T', '', '', ''));
+        $paginas = ceil($total / $limit);
 
         $paginaAtual = 1;
-        if($p){
+        if ($p) {
             $paginaAtual = $p;
         }
-        
+
         $offset = ($paginaAtual * $limit) - $limit;
-        if($pesquisa) {
+        if ($pesquisa) {
             $pag = 0;
             $pessoas = $pessoa->search('C', $pesquisa);
-        }else {
+        } else {
             $pag = 1;
-            $pessoas = $pessoa->list('C','',$offset, $limit);
+            $pessoas = $pessoa->list('C', '', $offset, $limit);
         }
 
         /*echo '<pre>';
@@ -107,46 +122,13 @@ class ajaxController extends controller
         $id_cliente = filter_input(INPUT_GET, 'id_cliente');
 
         if ($id_cliente) {
-            $vendaDireta = new NegocioVendaDireta();
-
-            $limit = 30;
-
-            $total = $vendaDireta->ListTotal($id_cliente);
-
-            $paginas = ceil($total / $limit);
-
-            $paginaAtual = 1;
-            if (!empty($_GET['p'])) {
-                $paginaAtual = intval($_GET['p']);
-            }
-
-            $offset = ($paginaAtual * $limit) - $limit;
-            $clientes = $vendaDireta->ListIndicator($id_cliente, $offset, $limit);
-        } else {
-            $clientes = new Clientes();
-
-            $limit = 30;
-
-            $total = $clientes->getTotalClienteTitular();
-
-            $paginas = ceil($total / $limit);
-
-            $paginaAtual = 1;
-            if (!empty($_GET['p'])) {
-                $paginaAtual = intval($_GET['p']);
-            }
-
-            $offset = ($paginaAtual * $limit) - $limit;
-            $clientes = $clientes->getClienteTitular($offset, $limit);
-        }
-
-
+            
+            $people = new N_PeopleHandler();
+            $clientes = $people->listIndicateds($id_cliente);
+        } 
 
         $this->loadViewInPainel('cadastros_listIndicators', [
-            'clientes' => $clientes,
-            'paginas' => $paginas,
-            'paginaAtual' => $paginaAtual,
-            'obCliente' => new Clientes()
+            'clientes' => $clientes
         ]);
     }
 
@@ -155,9 +137,9 @@ class ajaxController extends controller
 
         $id_cliente = filter_input(INPUT_GET, 'id_cliente');
         $pessoa = new N_PeopleHandler();
-        $total = count($pessoa->list('D',$id_cliente)); 
-        $pessoas = $pessoa->list('D',$id_cliente);
-      
+        $total = count($pessoa->list('D', $id_cliente));
+        $pessoas = $pessoa->list('D', $id_cliente);
+
         /*echo '<pre>';
         echo $pesquisa;
         print_r($pessoas);
@@ -198,63 +180,59 @@ class ajaxController extends controller
 
     public function listarRedesSite()
     {
-        $pesquisa = filter_input(INPUT_GET, 'pesquisa');
+        $pesquisa = filter_input(INPUT_GET, 's');
 
         $rede = new RedeCredenciadaHandler();
-        $limit = 30;
-        $total = $rede->getTotal();
-        $paginas = ceil($total / $limit);
-        $paginaAtual = 1;
-        if (!empty($_GET['p'])) {
-            $paginaAtual = intval($_GET['p']);
-        }
-
-        $offset = ($paginaAtual * $limit) - $limit;
         if ($pesquisa) {
             $redes = $rede->search($pesquisa);
-        } else {
-            $redes = $rede->getRedeByDestaque();
-        }
-
+        } 
 
         $this->loadViewInTemplate('redeLista', [
-            'redes' => $redes,
-            'paginas' => $paginas,
-            'total' => $total
+            'redes' => $redes
         ]);
     }
 
-    public function clientesTitular() 
+    public function listarTodosRedesSite()
     {
-        $p = filter_input(INPUT_GET,'p');
-        $pesquisa = filter_input(INPUT_GET,'pesquisa');
+
+        $rede =  new RedeCredenciadaHandler();
+        $redes = $rede->getListAll(); 
+
+        $this->loadViewInTemplate('redeLista', [
+            'redes' => $redes
+        ]);
+    }
+
+    public function clientesTitular()
+    {
+        $p = filter_input(INPUT_GET, 'p');
+        $pesquisa = filter_input(INPUT_GET, 'pesquisa');
         $pessoa = new N_PeopleHandler();
 
         $limit = 20;
 
-        $total = count($pessoa->list('T','','','')); 
+        $total = count($pessoa->list('T', '', '', ''));
 
-        $paginas = ceil($total/$limit);
+        $paginas = ceil($total / $limit);
 
         $paginaAtual = 1;
-        if($p){
+        if ($p) {
             $paginaAtual = $p;
         }
-        
+
         $offset = ($paginaAtual * $limit) - $limit;
-        if($pesquisa) {
+        if ($pesquisa) {
             $pag = 0;
             $pessoas = $pessoa->search('T', $pesquisa);
-        }else {
+        } else {
             $pag = 1;
-            $pessoas = $pessoa->list('T','',$offset, $limit);
+            $pessoas = $pessoa->list('T', '', $offset, $limit);
         }
 
         /*echo '<pre>';
         echo $pesquisa;
         print_r($pessoas);
         exit;*/
-        
 
         $this->loadViewInPainel('clientes_list', [
             'clientes' => $pessoas,
@@ -263,5 +241,33 @@ class ajaxController extends controller
             'paginaAtual' => $paginaAtual,
             'pag' => $pag
         ]);
+    }
+
+    /**
+     * @param int
+     * @return json
+     */
+    public function sendToConfirmTerm($id)
+    {
+        $array = ['erro' => ''];
+        $people = new N_PeopleHandler();
+        $item = $people->listOne($id, false);
+
+        if (isset($item['name'])) {
+            $e = new Email();
+            $e->setNome($item['name']);
+            $e->setEmail($item['email']);
+            $e->setAssunto('Termos de aceite');
+            $e->setLink(BASE_URL . 'adesaotermo/client/' . md5($item['id']));
+            $e->sendLinkTermToClient();
+            $array = [
+                'name' => $item['name'],
+                'email' => $item['email']
+            ];
+        } else {
+            $array = ['erro' => 'Cliente inexistente!'];
+        }
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($array,JSON_FORCE_OBJECT);
     }
 }

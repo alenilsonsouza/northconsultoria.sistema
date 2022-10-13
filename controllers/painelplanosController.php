@@ -31,7 +31,9 @@ class painelplanosController extends controller
         $product = filter_input(INPUT_POST, 'product');
         $price = filter_input(INPUT_POST, 'price');
         $text = filter_input(INPUT_POST, 'text');
+        $accreditNetWork = filter_input(INPUT_POST, 'accredit_network');
         $file = $_FILES['file'];
+        $filePDF = $_FILES['filePDF'];
 
         if (isset($file['tmp_name'])) {
             if ($product && $price) {
@@ -42,6 +44,10 @@ class painelplanosController extends controller
                 $plan->setPrice(Moeda::setValorFloat($price));
                 $plan->setText($text);
                 $plan->setImage($file); // Arquivo enviado e configurado internamente
+                $plan->setAccreditedNetWork($accreditNetWork);
+                if(isset($filePDF['tmp_name'])) {
+                    $plan->setCover($filePDF);
+                }
                 $planHandler->insert($plan);
             }
         }
@@ -76,8 +82,10 @@ class painelplanosController extends controller
         $product = filter_input(INPUT_POST, 'product');
         $price = filter_input(INPUT_POST, 'price');
         $text = filter_input(INPUT_POST, 'text');
+        $accreditNetWork = filter_input(INPUT_POST, 'accredited_network');
         $id = filter_input(INPUT_POST, 'id');
         $file = $_FILES['file'];
+        $filePDF = $_FILES['filePDF'];
 
         /*echo '<pre>';
         print_r($_POST);
@@ -91,9 +99,13 @@ class painelplanosController extends controller
             $plan->setProduct($product);
             $plan->setPrice(Moeda::setValorFloat($price));
             $plan->setText($text);
+            $plan->setAccreditedNetWork($accreditNetWork);
             if(isset($file['tmp_name'])) {
                 $plan->setImage($file);
             } 
+            if(isset($filePDF['tmp_name'])) {
+                $plan->setCover($filePDF);
+            }
             $planHandler->update($plan, $id);
         }
 

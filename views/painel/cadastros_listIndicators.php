@@ -3,7 +3,11 @@
         Total: <?= count($clientes); ?>
     </div>
 </div>
-
+<pre>
+<?php
+//print_r($clientes);
+?>
+</pre>
 <div class="row">
     <div class="col s12">
         <table class="striped">
@@ -19,29 +23,32 @@
             </tr>
             <?php foreach ($clientes as $cliente) : ?>
                 <tr>
-                    <td><?php echo $cliente['id_cliente']; ?></td>
+                    <td><?php echo $cliente['id']; ?></td>
                     <td>
-                        <?= date('d/m/Y H:i:s', strtotime($cliente['data_cadastro'])); ?><br>
+                        <?= date('d/m/Y', strtotime($cliente['date_register'])); ?><br>
 
 
                     </td>
                     <td>
-                        <?php echo $cliente['nome_cliente']; ?><br>
-                        <?php require 'partials/totaisBoletos.php'; ?>
+                        <?php echo $cliente['name']; ?>
                     </td>
-                    <td><?php echo (isset($cliente['plano']['nome'])) ? $cliente['plano']['nome'] : ''; ?></td>
+                    <td><?php 
+                    if (isset($cliente['plan']['product'])):?>
+                    <?php echo $cliente['plan']['product'] ?><br>
+                    <small><?= $cliente['plan']['price_real']; ?></small>
+                    <?php endif;?>
+                </td>
 
-                    <td><?php echo $cliente['email_cliente']; ?></td>
+                    <td><?php echo $cliente['email']; ?></td>
                     <td>
-                        <a href="<?= BASE_URL; ?>painelcadastros/dependentes/<?= $cliente['id_cliente']; ?>" class="btn">(<?= $obCliente->getTotalClientesByIdVendedor($cliente['id_cliente']); ?>) Dependentes</a>
+                        <a href="<?= BASE_URL; ?>painelcadastros/dependentes/<?= $cliente['id']; ?>" class="btn">(<?=$cliente['dependents'];?>) Dependentes</a>
                     </td>
                     
                     <td>
-                        <a href="<?= BASE_URL; ?>painelcadastros/ver/<?= md5($cliente['id_cliente']); ?>" class="btn">Ver Cadastro</a>
+                        <a href="<?= BASE_URL; ?>painelcadastros/ver/<?= md5($cliente['id']); ?>" class="btn">Ver Cadastro</a>
                     </td>
 
                 </tr>
-                <?php $comissao[] = isset($cliente['comissao']) ? $cliente['comissao'] : 0; ?>
             <?php endforeach; ?>
         </table>
     </div>
@@ -53,8 +60,3 @@
         </div>
     </div>
 <?php endif; ?>
-<div class="row">
-    <div class="col s12">
-        Total a pagar: R$ <?= isset($comissao) ? number_format(array_sum($comissao), 2, ',', '.') : number_format(0, 2, ',', '.'); ?>
-    </div>
-</div>

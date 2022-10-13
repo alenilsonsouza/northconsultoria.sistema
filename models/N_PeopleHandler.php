@@ -142,14 +142,14 @@ class N_PeopleHandler extends model
         return $array;
     }
 
-
-
-
-    public function listOne($id)
+    public function listOne($id, $md5 = false)
     {
 
         $array = [];
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
+        if($md5){
+            $sql = "SELECT * FROM {$this->table} WHERE MD5(id) = :id";
+        }
         $sql = $this->db->prepare($sql);
         $sql->execute([
             ':id' => $id
@@ -159,6 +159,73 @@ class N_PeopleHandler extends model
             $array = $this->listHandler('ONE', $list);
         }
         return $array;
+    }
+
+    public function listIndicateds($id) {
+        $sql = "SELECT * FROM {$this->table} WHERE id_people = :id ORDER BY id DESC";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            ':id'=> $id
+        ]);
+        if ($sql->rowCount() > 0) {
+            $list = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $array = $this->listHandler('ALL', $list);
+        }
+        return $array;
+    }
+
+    public function listCostumers() {
+        $array = [];
+        $sql = "SELECT * FROM {$this->table} WHERE `type_register` = 'C' ORDER BY `name` ASC";
+        $sql = $this->db->prepare($sql);
+        $sql->execute();
+        if ($sql->rowCount() > 0) {
+            $list = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $array = $this->listHandler('ALL', $list);
+        }
+        return $array;
+    }
+
+    public function listClientByConstumer($id_costumer, $start_date, $final_date) {
+        $array = [];
+        $sql = "SELECT * FROM {$this->table} WHERE id_people = :id_costumer AND date_register BETWEEN :start_date AND :final_date;";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            ':id_costumer' => $id_costumer,
+            ':start_date' => $start_date,
+            ':final_date' => $final_date
+        ]);
+        if ($sql->rowCount() > 0) {
+            $list = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $array = $this->listHandler('ALL', $list);
+        }
+        return $array;
+    }
+
+    public function verifyCheckedTerm($id) {
+
+        $res = false;
+		$sql = "SELECT * FROM {$this->table} WHERE id = :id";
+		$sql = $this->db->prepare($sql);
+		$sql->execute([
+			':id' => $id
+		]);
+		if($sql->rowCount() > 0) {
+			$item = $sql->fetch(PDO::FETCH_ASSOC);
+			if($item['termo'] == 'S'){
+				$res = true;
+			}
+		}
+		return $res;
+    }
+
+    public function aceitoTermo($id) {
+        $sql = "UPDATE {$this->table} SET termo = :termo WHERE id = :id";
+		$sql = $this->db->prepare($sql);
+		$sql->execute([
+			':termo' => 'S',
+			':id' => $id
+		]);
     }
 
     public function listHoldersByIdPeople($id_people)
@@ -220,10 +287,11 @@ class N_PeopleHandler extends model
         return $array;
     }
 
+
     private function listHandler($type, $list)
     {
         /**
-         * @param $type
+         * @param string
          * 'ALL' => gerar list
          * 'ONE' => pegar um item
          */
@@ -249,6 +317,7 @@ class N_PeopleHandler extends model
                 }
                 $array[$k]['files'] = $file->listByPeople($list[$k]['id']);
                 $array[$k]['type_register_text'] = $this->typeRegisterHandler($list[$k]['type_register']);
+                $array[$k]['termo_aceito'] = $array[$k]['termo'] == 'S'?'SIM':'NÃO';
             }
         } elseif ($type == 'ONE') {
             $array = $list;
@@ -266,6 +335,7 @@ class N_PeopleHandler extends model
             }
             $array['files'] = $file->listByPeople($list['id']);
             $array['type_register_text'] = $this->typeRegisterHandler($list['type_register']);
+            $array['termo_aceito'] = $array['termo'] == 'S'?'SIM':'NÃO';
         }
 
         return $array;

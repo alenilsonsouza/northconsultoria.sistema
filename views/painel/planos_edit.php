@@ -11,7 +11,7 @@
 </div>
 <div class="row">
     <div class="col s12">
-        <h5>Plano <?=$plano['product'];?></h5>
+        <h5>Plano <?= $plano['product']; ?></h5>
     </div>
 </div>
 <div class="row">
@@ -20,9 +20,9 @@
             <div class="col s3">
                 <?php if (isset($plano['url'])) : ?>
                     <img src="<?= $plano['url']; ?>" alt="" width="150">
-                <?php else: ?>
+                <?php else : ?>
                     Sem logo
-                <?php endif;?>
+                <?php endif; ?>
             </div>
             <div class="file-field input-field col s3">
                 <div class="btn">
@@ -42,16 +42,33 @@
                 <label for="valor">Valor:</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="textarea1" class="materialize-textarea" name="text"><?=$plano['text'];?></textarea>
+                <input type="url" name="accredited_network" value="<?= $plano['accredited_network']; ?>">
+                <label for="accredited_network">Rede Credenciada (URL):</label>
+            </div>
+            <div class="col s6">
+                <?php if (!empty($plano['cover'])) : ?>
+                    <a href="<?=$plano['cover'];?>" target="_blank" download="download">Baixar PDF</a>
+                <?php endif; ?>
+            </div>
+            <div class="file-field input-field col s6">
+                <div class="btn">
+                    <span>TROCAR O que cobre (PDF)</span>
+                    <input type="file" name="filePDF">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <div class="input-field col s12">
+                <textarea id="textarea1" class="materialize-textarea" name="text"><?= $plano['text']; ?></textarea>
                 <label for="textarea1">Obs:</label>
             </div>
             <div class="input-field col s4">
                 <input type="hidden" name="id" id="" value="<?= $plano['id']; ?>">
-                <input type="hidden" name="imageName" value="<?= $plano['image'];?>">
+                <input type="hidden" name="imageName" value="<?= $plano['image']; ?>">
                 <input type="submit" value="Atualizar" class="btn">
 
             </div>
         </div>
     </form>
 </div>
-

@@ -71,8 +71,7 @@
             </div>
         </div>
         <div class="action--button">
-            <a href="" class="button">Peça a sua cotação</a>
-            <a href="" class="button button-red">Plano Empresarial</a>
+            <a href="<?=WHATSAPP;?>" target="_blank" class="button" >Peça a sua cotação</a>
         </div>
     </div>
 </section>
@@ -114,8 +113,7 @@
 
         </div>
         <div class="action--button">
-            <a href="" class="button">Peça a sua cotação</a>
-            <a href="" class="button button-red">Plano Empresarial</a>
+            <a href="<?=WHATSAPP;?>" target="_blank" class="button">Peça a sua cotação</a>
         </div>
     </div>
 </section>
@@ -141,8 +139,7 @@
         </div>
 
         <div class="action--button">
-            <a href="" class="button">Peça a sua cotação</a>
-            <a href="" class="button button-red">Plano Empresarial</a>
+            <a href="<?=WHATSAPP;?>" target="_blank" class="button">Peça a sua cotação</a>
         </div>
     </div>
 </section>

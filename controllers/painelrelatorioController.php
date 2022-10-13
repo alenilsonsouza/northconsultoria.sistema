@@ -1,28 +1,26 @@
 <?php
 class painelrelatorioController extends controller {
 
-	private $user;
-
     public function __construct() {
         parent::__construct();
 
         $u = new Usuarios();
         if(!$u->isLogged()){
             header("Location: ".BASE_URL."login");
+            exit;
         }
         
     }
 
     public function index() {
-        $dados = array();
-
-       
-
         
-        $dados['page'] = "relatorio";
-        
+        $people = new N_PeopleHandler();
+        $costumers = $people->listCostumers();
 		
-        $this->loadTemplateInPainel('relatorio', $dados);
+        $this->loadTemplateInPainel('relatorio', [
+            'page' => "relatorio",
+            'costumers' => $costumers
+        ]);
     }
 
     

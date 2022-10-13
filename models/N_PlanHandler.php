@@ -13,6 +13,7 @@ class N_PlanHandler extends model
          * ACTIVE - Só os planos ativos
          * INACTIVE - Só os planos inativos
          */
+        
         $array = [];
 
         $sql = "SELECT * FROM {$this->table} ";
@@ -70,7 +71,9 @@ class N_PlanHandler extends model
                 $array[$k]['price_real_number'] = Moeda::converterParaBr($list[$k]['price']);
                 $array[$k]['active_text'] = $list[$k]['active'] == 'Y' ? 'Ativo' : 'Inativo';
                 $array[$k]['url'] = BASE_API_FILE . $list[$k]['image'];
+                $array[$k]['cover'] = !empty($array[$k]['cover'])?BASE_API_FILE . $list[$k]['cover']:'';
                 $array[$k]['total_people'] = $this->totalPeopleInPlan($list[$k]['id']);
+                
             }
         } elseif ($type == 'ONE') {
             $array = $list;
@@ -78,6 +81,7 @@ class N_PlanHandler extends model
             $array['price_real_number'] = Moeda::converterParaBr($list['price']);
             $array['active_text'] = $list['active'] == 'Y' ? 'Ativo' : 'Inativo';
             $array['url'] = BASE_API_FILE . $list['image'];
+            $array['cover'] = !empty($array['cover'])?BASE_API_FILE . $list['cover']:'';
             $array['total_people'] = $this->totalPeopleInPlan($list['id']);
         }
 
@@ -119,18 +123,22 @@ class N_PlanHandler extends model
         
          // Pega um array com informações de nome do arquivo ou mensagem de erro quando houver erro
         $fileUpload = $this->uploadFile($plan->getImage());
+        $fileUploadCover = $this->uploadFile($plan->getCover());
 
         if ($fileUpload['error'] == 0) {
 
             $fileName = $fileUpload['fileName'];
+            $fileNameCover = $fileUploadCover['fileName'];
 
-            $sql = "INSERT INTO {$this->table} (product, price, `image`, `text`) VALUES (:product, :price, :image, :text)";
+            $sql = "INSERT INTO {$this->table} (product, price, `image`, `text`,`accredited_network`, `cover`) VALUES (:product, :price, :image, :text,:accredited_network, :cover)";
             $sql = $this->db->prepare($sql);
             $sql->execute([
                 'product' => $plan->getProduct(),
                 'price' => $plan->getPrice(),
                 'image' => $fileName,
-                'text' => $plan->getText()
+                'text' => $plan->getText(),
+                'accredited_network' => $plan->getAccreditedNetwork(),
+                'cover' => $fileNameCover
             ]);
         }
     }
@@ -152,6 +160,8 @@ class N_PlanHandler extends model
          *           'error' => 1
          *       ];
          */
+
+        // Verifica se existe Imagem cadastra e se foi enviada pelo usuário
         $fileName = '';
         $sql = "SELECT `image` FROM {$this->table} WHERE id = :id";
         $sql = $this->db->prepare($sql);
@@ -168,13 +178,32 @@ class N_PlanHandler extends model
             }
         } 
 
-        $sql = "UPDATE {$this->table} SET product = :product, price = :price, `image` = :image, `text` = :text WHERE id = :id";
+        // Verifica se o pdf foi enviado
+        $fileNameCover = '';
+        $sql = "SELECT `cover` FROM {$this->table} WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->execute(['id' => $id]);
+        if ($sql->rowCount() > 0) {
+            $item = $sql->fetch();
+            $fileNameCover = $item['cover'];
+        }
+        if (!empty($plan->getCover())) {
+            $fileCoverUpload = $this->uploadFile($plan->getCover());
+            if ($fileCoverUpload['error'] == 0) {
+                $this->deleFileCoverFromPlan($id);
+                $fileNameCover = $fileCoverUpload['fileName'];
+            }
+        }
+
+        $sql = "UPDATE {$this->table} SET product = :product, price = :price, `image` = :image, `text` = :text, accredited_network = :accredited_network, cover = :cover WHERE id = :id";
         $sql = $this->db->prepare($sql);
         $sql->execute([
             'product' => $plan->getProduct(),
             'price' => $plan->getPrice(),
             'image' => $fileName,
             'text' => $plan->getText(),
+            'accredited_network' => $plan->getAccreditedNetwork(),
+            'cover' => $fileNameCover,
             'id' => $id
         ]);
     }
@@ -210,6 +239,7 @@ class N_PlanHandler extends model
         if ($totalPeople == 0) {
 
             $this->deleFileFromPlan($id);
+            $this->deleFileCoverFromPlan($id);
             $sql = "DELETE FROM {$this->table} WHERE id = :id";
             $sql = $this->db->prepare($sql);
             $sql->execute(['id' => $id]);
@@ -224,6 +254,20 @@ class N_PlanHandler extends model
         if ($sql->rowCount() > 0) {
             $item = $sql->fetch();
             $file = BASE_API_UPDLOAD_FILE . $item['image'];
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+    }
+
+    private function deleFileCoverFromPlan($id)
+    {
+        $sql = "SELECT `cover` FROM {$this->table} WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->execute(['id' => $id]);
+        if ($sql->rowCount() > 0) {
+            $item = $sql->fetch();
+            $file = BASE_API_UPDLOAD_FILE . $item['cover'];
             if (file_exists($file)) {
                 unlink($file);
             }

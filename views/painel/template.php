@@ -1,5 +1,6 @@
 <?php
-$u = new Usuarios($_SESSION['plogin']);
+$user = isset($_SESSION['plogin'])?$_SESSION['plogin']:0;
+$u = new Usuarios($user);
 $nome = $u->getNome();
 $s = new Site();
 $site = $s->getArray();
@@ -64,20 +65,10 @@ $configuracoes = $c->getArray();
       <nav class="menuVertical">
         <ul>
           <li><a href="<?php echo BASE_URL; ?>painel" class="<?php echo ($p == 'painel') ? 'ativo' : ''; ?>"><i class="material-icons left">dashboard</i>Dashbord</a></li>
-          <!--<li><a href="<?php echo BASE_URL; ?>" target="projeto"><i class="material-icons left">web_asset</i>Ver Site</a></li>-->
           <li><a href="<?php echo BASE_URL; ?>painelcadastros" class="<?php echo ($p == 'cadastros') ? 'ativo' : ''; ?>"><i class="material-icons left">person_pin</i>Vendedores</a></li>
           <li><a href="<?php echo BASE_URL; ?>painelcadastros/clientes" class="<?php echo ($p == 'clientes') ? 'ativo' : ''; ?>"><i class="material-icons left">person_pin</i>Clientes</a></li>
-
-          <!--<li><a href="<?php echo BASE_URL; ?>painelarvore" class="<?php echo ($p == 'arvore') ? 'ativo' : ''; ?>"><i class="material-icons left">public</i>Árvore</a></li>-->
-          <!--<li><a href="<?php echo BASE_URL; ?>painelniveis" class="<?php echo ($p == 'niveis') ? 'ativo' : ''; ?>"><i class="material-icons left">list</i>Níveis</a></li>-->
           <li><a href="<?php echo BASE_URL; ?>painelplanos" class="<?php echo ($p == 'planos') ? 'ativo' : ''; ?>"><i class="material-icons left">format_list_bulleted</i>Planos</a></li>
-          <!--<li><a href="<?php echo BASE_URL; ?>painelboletos" class="<?php echo ($p == 'boletos') ? 'ativo' : ''; ?>"><i class="material-icons left">monetization_on</i>Boletos Gerados</a></li>-->
-          <!--<li><a href="<?php echo BASE_URL; ?>painelrelatorio" class="<?php echo ($p == 'relatorio') ? 'ativo' : ''; ?>"><i class="material-icons left">content_paste</i>Relatório</a></li>-->
-          <!--<li><a href="<?php echo BASE_URL; ?>painelboletobarato" class="<?php echo ($p == 'boleotobarato') ? 'ativo' : ''; ?>"><i class="material-icons left">settings</i>Integração BB</a></li>-->
-          <!--<li><a href="<?php echo BASE_URL; ?>painelfinanceiro" class="<?php echo ($p == 'financeiro') ? 'ativo' : ''; ?>"><i class="material-icons left">monetization_on</i>Financeiro</a></li>-->
-          <!--<li><a href="<?php echo BASE_URL; ?>painelcomissoes" class="<?php echo ($p == 'comissoes') ? 'ativo' : ''; ?>"><i class="material-icons left">monetization_on</i>Comissões</a></li>-->
-          <!--<li><a href="<?php echo BASE_URL; ?>painelcomissoes/comissoesPagas" class="<?php echo ($p == 'comissoes_pagas') ? 'ativo' : ''; ?>"><i class="material-icons left">monetization_on</i>Comissões Pagas</a></li>-->
-          <!--<li><a href="<?php echo BASE_URL; ?>paineltrocacomissao" class="<?php echo ($p == 'trocacomissao') ? 'ativo' : ''; ?>"><i class="material-icons left">monetization_on</i>Troca de Comissão</a></li>-->
+          <li><a href="<?php echo BASE_URL; ?>painelrelatorio" class="<?php echo ($p == 'relatorio') ? 'ativo' : ''; ?>"><i class="material-icons left">content_paste</i>Relatório</a></li>
           <li><a href="<?php echo BASE_URL; ?>painelredecredenciada" class="<?php echo ($p == 'redecredenciada') ? 'ativo' : ''; ?>"><i class="material-icons left">monetization_on</i>Rede Credenciada</a></li>
           <li><a href="<?php echo BASE_URL; ?>painelusuarios" class="<?php echo ($p == 'usuarios') ? 'ativo' : ''; ?>"><i class="material-icons left">supervised_user_circle</i>Usuarios</a></li>
           <li><a href="<?php echo BASE_URL; ?>painelsuporte" class="<?php echo ($p == 'suporte') ? 'ativo' : ''; ?>"><i class="material-icons left">help</i>Suporte</a></li>

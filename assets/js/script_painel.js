@@ -127,3 +127,23 @@ $(function () {
         });
     }
 })
+
+/**
+ * @param string
+ * @return void
+ */
+async function sendEmailTerm(elem) {
+
+    elem.innerHTML = 'Enviando...';
+    let elemUrl = elem.getAttribute('data-url');
+    let url = `${elemUrl}`;
+    let req = await fetch(url);
+    let json = await req.json();
+    
+    if(json.email) {
+        elem.innerHTML = 'Enviado!';
+    } else {
+        elem.innerHTML = 'Ops! Email não encontrado!';
+    }
+
+}

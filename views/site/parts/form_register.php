@@ -17,6 +17,63 @@
 
     </div>
     <form action="<?= BASE_URL; ?>home/addClientAsaasInHome" method="post" class="form_default" id="form-register" enctype="multipart/form-data">
+        
+        <div class="typeRegister">
+            <label for="financial_responsible">Quem é o Responsável Financeiro?</label>
+            <select name="financial_responsible" id="financial_responsible">
+                <option value="1">Titular</option>
+                <option value="2">Outro</option>
+            </select>
+        </div>
+        <div class="financialResponsibleInput">
+            <h3>Resposável Financeiro</h3>
+            <div class="grid grid-3">
+                <div>
+                    <label for="fr_cpf">CPF:*</label>
+                    <input type="tel" name="fr_cpf" id="fr_cpf" onkeyup="mascara('###.###.###-##',this,event,true);">
+                </div>
+                <div>
+                    <label for="fr_name">Nome Responsável Financeiro:*</label>
+                    <input type="text" name="fr_name" id="fr_name">
+                </div>
+                <div>
+                    <label for="fr_email">E-mail:*</label>
+                    <input type="email" name="fr_email" id="fr_email">
+                </div>
+                <div>
+                    <label for="fr_birthdate">Data Nascimento:*</label>
+                    <input type="date" name="fr_birthdate" id="fr_birthdate">
+                </div>
+                <div>
+                <label for="fr_sexo">Sexo:*</label>
+                <select name="fr_sexo" id="fr_sexo">
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                </select>
+            </div>
+            <div>
+                <label for="fr_tel_cel">Celular:*</label>
+                <input type="tel" name="fr_tel_cel" id="fr_tel_cel" onkeyup="mascara('(##) #####-####',this,event,true)">
+            </div>
+            <div>
+                <label for="fr_parentesco">Perentesco:</label>
+                <select name="fr_parentesco" id="fr_parentesco">
+                    <option value="Amigo(a)">Amigo(a)</option>
+                    <option value="Vizinho(a)">Vizinho(a)</option>
+                    <option value="Cunhado(a)">Cunhado(a)</option>
+                    <option value="Pai">Pai</option>
+                    <option value="Mãe">Mãe</option>
+                    <option value="Esposo(a)">Esposo(a)</option>
+                    <option value="Irmão">Irmão</option>
+                    <option value="Irmã">Irmã</option>
+                    <option value="Primo(a)">Primo(a)</option>
+                    <option value="Tio(a)">Tio(a)</option>
+                    <option value="Filho(a)">Filho(a)</option>
+                </select>
+            </div>
+            </div>
+            
+        </div>
         <div class="typeRegister">
             <label for="tipo_cadastro">Escolha o tipo de cadastro</label>
             <select name="tipo_cadastro" id="tipo_cadastro">
@@ -45,7 +102,7 @@
                 </div>
             </div>
         </div>
-        <h3>Dados pessoais</h3>
+        <h3>Dados pessoais (Titular)</h3>
         <div class="grid grid-3">
             <div>
                 <label for="cpf">CPF:*</label>
@@ -141,21 +198,26 @@
                 </select>
             </div>
         </div>
-        <h3>Documentos</h3>
+        <h3>Documentos (JPG, PNG, GIF, PDF)</h3>
         <div class="grid grid-3">
             <div>
-                <label for="file_rf">Foto do RG:</label>
-                <input type="file" name="file_rg" id="file_rg" required accept="image/*" class="input-enableDisabled">
+                <label for="file_rg">Foto do RG (FRENTE):</label>
+                <input type="file" name="file_rg" id="file_rg" required accept=".jpg, .jpeg, .png, .pdf, .gif" class="input-enableDisabled">
                 <input type="hidden" name="file_rg_title" value="RG">
             </div>
             <div>
+                <label for="file_rg_verso">Foto do RG (VERSO):</label>
+                <input type="file" name="file_rg_verso" id="file_rg_verso" required accept=".jpg, .jpeg, .png, .pdf, .gif" class="input-enableDisabled">
+                <input type="hidden" name="file_rg_title_verso" value="RG">
+            </div>
+            <div>
                 <label for="file_cpf">Foto do CPF:</label>
-                <input type="file" name="file_cpf" id="file_cpf" required accept="image/*" class="input-enableDisabled">
+                <input type="file" name="file_cpf" id="file_cpf" required accept=".jpg, .jpeg, .png, .pdf, .gif" class="input-enableDisabled">
                 <input type="hidden" name="file_cpf_title" value="CPF">
             </div>
             <div>
                 <label for="file_cr">Foto do Comprovante de residência:</label>
-                <input type="file" name="file_cr" id="file_cr" required accept="image/*" class="input-enableDisabled">
+                <input type="file" name="file_cr" id="file_cr" required accept=".jpg, .jpeg, .png, .pdf, .gif" class="input-enableDisabled">
                 <input type="hidden" name="file_cr_title" value="CR">
             </div>
         </div>

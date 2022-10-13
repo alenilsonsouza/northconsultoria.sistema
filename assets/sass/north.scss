@@ -5,12 +5,29 @@ $font: "Inter", sans-serif;
 $primary: #010165;
 $secondary: #cc982b;
 $third: #ef2c28;
-
+*{
+    
+}
 body {
     font-family: $font;
     font-size: 16px;
 }
-
+.banner-full {
+    width: 100%;
+    height: calc(100vh - 145px);
+    background-position: center;
+    background-size:contain;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    h1{
+        text-align: center;
+        background-color:rgba(255,255,255, 0.8);
+        padding: 20px;
+        text-transform: uppercase;
+    }
+}
 .font-light {
     font-weight: 300;
 }
@@ -154,7 +171,8 @@ strong {
         font-weight: bold;
         color: $primary;
         text-transform: uppercase;
-        font-size: 28px;
+        font-size: 16px;
+        line-height: 20px;
     }
 }
 .menu {
@@ -229,9 +247,10 @@ strong {
     margin-top: 30px;
     flex-direction: column-reverse;
     .left {
+        margin-top: 40px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 40px;
     }
     .right {
         img {
@@ -241,6 +260,8 @@ strong {
     .service--item {
         display: flex;
         margin-bottom: 30px;
+        background-color: #eee;
+        padding:20px;
         .img {
             height: 200px;
             width: 200px;
@@ -258,10 +279,15 @@ strong {
         .text {
             flex: 1;
             h2 {
-                font-size: 18px;
+                font-size: 15px;
                 font-weight: bold;
-                color: $primary;
+                color:$primary;
+                line-height: 22px;
                 text-transform: uppercase;
+            }
+            .button{
+                display: block;
+                text-align: center;
             }
             .service--list {
                 margin-bottom: 20px;
@@ -272,9 +298,15 @@ strong {
 
                     a {
                         color: $primary;
-                        font-size: 12;
+                        font-size: 15px;
+                        display: block;
+                        background-color: #ccc;
+                        border-radius: 4px;
+                        padding: 20px;
+                        text-align: center;
                         &:hover {
-                            color: $secondary;
+                            background-color: $third;
+                            color:#fff;
                         }
                     }
                 }
@@ -569,7 +601,11 @@ strong {
         background-color: #fff;
         padding: 40px;
         box-sizing: border-box;
-        position: relative;
+        position: fixed;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
         box-sizing: border-box;
         height: 100%;
         overflow-y: auto;
@@ -596,6 +632,7 @@ strong {
     width: 100%;
     h3 {
         font-weight: bold;
+        font-size: 20px;
     }
     label {
         display: block;
@@ -609,7 +646,7 @@ strong {
         width: 100%;
         padding: 8px;
         box-sizing: border-box;
-        border: 1px solid $primary;
+        border: 1px solid #eee;
     }
     textarea {
         height: 80px;
@@ -709,6 +746,16 @@ strong {
         height: 350px;
     }
 }
+.sign {
+    margin-top: 40px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    span{
+        margin-bottom: 15px;
+    }
+}
 .senderName {
     padding: 15px 0;
     text-align: center;
@@ -717,6 +764,43 @@ strong {
 }
 .typeRegister {
     margin-bottom: 40px;
+}
+.parceiro_pesquisa {
+    margin: 30px auto;
+    input{
+        width: 100%;
+        border-radius: 5px;
+        box-sizing: border-box;
+        padding: 20px 30px;
+        border: 1px solid #ccc;
+    }
+}
+.banner-card {
+    background-color: $primary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    img{
+        height: 300px;
+        margin: 15px;
+        @media (max-width: 1200px) {
+            height: 200px;
+        }
+        @media (max-width:790px) {
+            height: auto;
+            width: 100%;
+        }
+    }
+    @media (max-width: 790px) {
+        flex-direction: column;
+    }
+}
+.btResetPartners {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .parceiros_redes {
     display: grid;
@@ -732,22 +816,42 @@ strong {
             background-position: center;
             background-size: contain;
             background-repeat: no-repeat;
+            filter:grayscale(1);
         }
+
+        &:hover{
+            transform: scale(1.05);
+            background-color:$primary;
+            padding: 12px;
+            border-radius: 5px;
+            color:#fff;
+            .logo {
+                filter:grayscale(0);
+                
+            }
+            .right {
+                .name {
+                    color:#fff;
+                }
+            }
+        } 
     }
     .right {
         flex: 1;
         display: flex;
         flex-direction: column;
+        line-height: 16px;
         .name {
             font-weight: bold;
             margin-bottom: 5px;
             color: $primary;
-            font-size: 14px;
+            font-size: 13px;
         }
         .desc {
             display: flex;
             font-size: 13px;
             margin-bottom: 5px;
+            
             .city {
                 margin-right: 10px;
             }
@@ -763,9 +867,24 @@ strong {
             }
         }
         .discount {
-            font-size: 14px;
+            font-size: 13px;
+            border-top: 1px solid #eee;
+            margin-top: 3px;
+            padding-top: 4px;
         }
     }
+}
+.financialResponsibleInput,
+.bussinessInput {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.financialResponsibleInput {
+    background-color: #999eee;
+    display: none;
+}
+.bussinessInput {
+    background-color: #eee;
 }
 @media (max-width: 1200px) {
     .container {
@@ -930,11 +1049,12 @@ strong {
         text-align: center;
     }
     .register--title h2 {
-        font-size: 18px;
+        font-size: 14px;
     }
     .form_default h3 {
         text-align: center;
         margin-top: 10px;
+        font-size: 16px;
     }
     .grid.grid-3 {
         grid-template-columns: 1fr;
@@ -973,10 +1093,15 @@ strong {
                 width: 100%;
                 margin-right: 0;
                 margin-bottom: 12px;
+                height: auto;
+                padding-top:10px;
+                padding-bottom:10px;
             }
             .text {
                 h2 {
                     text-align: center;
+                    font-weight: bold;
+                    font-size: 18px;
                 }
                 .service--list {
                     li {
@@ -991,10 +1116,35 @@ strong {
     }
     .price {
         text-align: center;
+        font-size: 25px;
     }
     .button {
         width: 100%;
         text-align: center;
         box-sizing: border-box;
+    }
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+    p{
+        font-size: 12px;
+    }
+    .header {
+        border-bottom: none;
+    }
+    .header .container .logo img {
+        height: 55px;
+    }
+    .full {
+        padding: 0;
+    }
+    .title1 {
+        font-size: 18px;
+    }
+    .sign {
+        display: flex;
     }
 }

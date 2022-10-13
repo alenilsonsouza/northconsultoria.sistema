@@ -6,3 +6,4 @@
     </div>
 </div>
 <?php endif;?>
+<script src="<?=BASE_URL_SCRIPT;?>Controllers/Warning.js" defer></script>

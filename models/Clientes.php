@@ -325,15 +325,19 @@ class Clientes extends model
 
 	public function getClienteById($id)
 	{
+		echo 'Entrou na função<br>';
 		$array = [];
 		$sql = "SELECT * FROM clientes WHERE MD5(id_cliente) = :id";
 		$sql = $this->db->prepare($sql);
-		$sql->bindValue(':id', $id);
-		$sql->execute();
+		$sql->execute([
+			':id' => $id
+		]);
 		if ($sql->rowCount() > 0) {
+			echo 'pegou o cliente';
 			$item = $sql->fetch(PDO::FETCH_ASSOC);
 			$array = $this->montarObj($item);
 		}
+		exit;
 		return $array;
 	}
 
@@ -805,6 +809,31 @@ class Clientes extends model
 		$sql->execute();
 		$sql = $sql->fetch();
 		return $sql['t'];
+	}
+
+	public function verifyCheckedTerm($id) {
+		$res = false;
+		$sql = "SELECT * FROM clientes WHERE id_cliente = :id";
+		$sql = $this->db->prepare($sql);
+		$sql->execute([
+			':id' => $id
+		]);
+		if($sql->rowCount() > 0) {
+			$item = $sql->fetch(PDO::FETCH_ASSOC);
+			if($item['termo'] == 'S'){
+				$res = true;
+			}
+		}
+		return $res;
+	}
+
+	public function aceitoTermo($id) {
+		$sql = "UPDATE clientes SET termo = :termo WHERE id_cliente = :id";
+		$sql = $this->db->prepare($sql);
+		$sql->execute([
+			':termo' => 'S',
+			':id' => $id
+		]);
 	}
 
 	private function getTipoCliente($cliente)

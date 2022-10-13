@@ -171,14 +171,20 @@
         <div class="row">
             <form class="col s12" method="post" enctype="multipart/form-data" action="<?= BASE_URL; ?>painelcadastros/storageDocumentos">
                 <div class="row">
-
                     <?php foreach ($cliente['files'] as $file) : ?>
 
                         <div class="col s4">
                             <p><?= $file['type']; ?></p>
                             <div class="areaImageDoc">
                                 <a href="<?= $file['url']; ?>" target="_blank">
+                                    <?php
+                                    $nameFile = explode('.', $file['name']);
+                                    $ext = end($nameFile);
+                                    if($ext == 'pdf'):?>
+                                    <img src="<?= BASE_URL_IMAGE; ?>pdf.png" alt="" />
+                                    <?php else: ?>
                                     <img src="<?= $file['url']; ?>" alt="" />
+                                    <?php endif;?>
                                 </a>
                             </div>
                             <a href="<?= BASE_URL; ?>painelcadastros/deleteDocument/<?= $file['id']; ?>?id_cliente=<?= $cliente['id']; ?>" class="btn">Excluir</a>

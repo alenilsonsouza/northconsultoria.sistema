@@ -8,133 +8,126 @@ use PHPMailer\PHPMailer\Exception;
 // Load Composer's autoloader
 require 'vendor/autoload.php';
 
-class Email extends model{
+class Email extends model
+{
 
 	private $nome;
 	private $email;
 	private $telefone;
 	private $assunto;
 	private $mensagem;
+	private $emailTo = 'pianaseguros@gmail.com, northconsultoria.es@gmail.com, smnorteconsultoria@gmail.com';
+	private $emailFrom = 'contato@northconsultoria.net.br';
+	private $link;
+	private $title = 'North Consultoria';
 
-	public function setNome($nome){
-		if(filter_var($nome, FILTER_SANITIZE_STRING)){
-			$this->nome = $nome;
-		}
+	public function setNome($nome)
+	{
+		$this->nome = $nome;
 	}
 
-	public function setEmail($email){
-		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-			$this->email = $email;
-		}
+	public function setEmail($email)
+	{
+		$this->email = $email;
 	}
 
-	public function setTelefone($telefone){
-		if(filter_var($telefone, FILTER_SANITIZE_STRING)){
-			$this->telefone = $telefone;
-		}
+	public function setTelefone($telefone)
+	{
+		$this->telefone = $telefone;
 	}
 
-	public function setAssunto($assunto){
-		if(filter_var($assunto, FILTER_SANITIZE_STRING)){
-			$this->assunto = $assunto;
-		}
+	public function setAssunto($assunto)
+	{
+		$this->assunto = $assunto;
 	}
 
-	public function setMensagem($mensagem){
-		if(filter_var($mensagem, FILTER_SANITIZE_STRING)){
-			$this->mensagem = $mensagem;
-		}
+	public function setMensagem($mensagem)
+	{
+		$this->mensagem = $mensagem;
 	}
-	
-	public function enviarContato(){
 
-		$site = new Site();
-		$item = $site->getArray();
+	public function setLink($link)
+	{
+		$this->link = $link;
+	}
 
-		$para    = $item['emails'];
-		$assunto = $this->assunto;
-		$subject = 'Life Cartões - '.$this->assunto;
+	public function enviarContato()
+	{
+
+		$para    = $this->emailTo;
+		$subject = $this->assunto . ' North Consultoria';
 		$message = "
 		<html>
 		<head>
-		  <title>AleEvolucoes</title>
+		  <title>{$this->title}</title>
 		</head>
 		<body>
 		  <table>
 		    <tr>
 		      <td>Nome: </td>
-		      <td>".$this->nome."</td>
+		      <td>" . $this->nome . "</td>
 		    </tr>
 		    <tr>
 		      <td>E-mail: </td>
-		      <td>".$this->email."</td>
+		      <td>" . $this->email . "</td>
 		    </tr>
 		    <tr>
 		      <td>Assunto: </td>
-		      <td>".$this->assunto."</td>
+		      <td>" . $this->assunto . "</td>
 		    </tr>
 		   
 		    <tr>
-		      <td>Mensagem / Descrição do projeto:</td>
-		      <td>".$this->mensagem."</td>
+		      <td>Mensagem:</td>
+		      <td>" . $this->mensagem . "</td>
 		    </tr>
 		  </table>
 		</body>
 		</html>
 		";
-		$headers = "MIME-Version: 1.0\r\n";
-		$headers .= "From: Site <site@aleevolucoes.com.br>\r\n";
-		$headers .= "Content-type: text/html; charset=utf-8" . "\r\n";
-		$headers .= "X-Mailer: PHP/" . phpversion ();
-
-		mail($para, $subject, $message, $headers);
+		$this->toSend($para, $subject, $message);
 	}
 
-	public function enviarOrcamento(){
+	public function enviarOrcamento()
+	{
 
 		$site = new Site();
 		$item = $site->getArray();
 
-		$para    = $item['emails'];
-		$assunto = $this->assunto;
-		$subject = 'Pedido de Orçamento - '.$this->assunto;
+		$para    = $this->emailTo;
+		$subject = 'Pedido de Orçamento - ' . $this->assunto;
 		$message = "
 		<html>
 		<head>
-		  <title>AleEvolucoes</title>
+		  <title>{$this->title}</title>
 		</head>
 		<body>
 		  <table>
 		    <tr>
 		      <td>Nome: </td>
-		      <td>".$this->nome."</td>
+		      <td>" . $this->nome . "</td>
 		    </tr>
 		    <tr>
 		      <td>E-mail: </td>
-		      <td>".$this->email."</td>
+		      <td>" . $this->email . "</td>
 		    </tr>
 		    <tr>
 		      <td>Telefone: </td>
-		      <td>".$this->telefone."</td>
+		      <td>" . $this->telefone . "</td>
 		    </tr>
 		    <tr>
 		      <td>Mensagem</td>
-		      <td>".$this->mensagem."</td>
+		      <td>" . $this->mensagem . "</td>
 		    </tr>
 		  </table>
 		</body> 
 		</html>
 		";
-		$headers = "MIME-Version: 1.0\r\n";
-		$headers .= "From: Site <site@aleevolucoes.com.br>\r\n";
-		$headers .= "Content-type: text/html; charset=utf-8" . "\r\n";
-		$headers .= "X-Mailer: PHP/" . phpversion ();
-
-		mail($para, $subject, $message, $headers);
+		$this->toSend($para, $subject, $message);
 	}
 
-	public function sendEmail() {
-		
+	public function sendEmail()
+	{
+
 		// Instantiation and passing `true` enables exceptions
 		$mail = new PHPMailer(true);
 
@@ -171,7 +164,8 @@ class Email extends model{
 	}
 
 	// envio com função mail() para o email setado
-	public function sendEmailTo(){
+	public function sendEmailTo()
+	{
 
 		$para    = $this->email;
 		$subject = $this->assunto;
@@ -180,25 +174,91 @@ class Email extends model{
 		$message = "
 		<html>
 			<head>
-				<title>Life Cartões</title>
+				<title>{$this->title}</title>
 			</head>
 			<body>
-				<p>Olá <strong>".$this->nome."</strong>,</p>	
-				".$this->mensagem."
+				<p>Olá <strong>" . $this->nome . "</strong>,</p>	
+				" . $this->mensagem . "
 			</body>
 		</html>";
 
-		//Cabeçalhos
+		$this->toSend($para, $subject, $message);
+	}
+
+	public function sendToClient()
+	{
+
+		$para    = $this->email;
+		$subject = 'Aceito - North Consultoria - ' . $this->assunto;
+		$message = "
+		<html>
+		<head>
+		  <title>{$this->title}</title>
+		</head>
+		<body>
+		  <p>Olá {$this->nome}, você aceitou os termos de North Consultoria.</p>
+
+		</body>
+		</html>
+		";
+		$this->toSend($para, $subject, $message);
+	}
+
+	public function sendToConfirmClient()
+	{
+
+		$para    = $this->emailTo;
+		$subject = 'Aceito - North Consultoria  - ' . $this->nome;
+		$message = "
+		<html>
+		<head>
+		  <title>{$this->title}</title>
+		</head>
+		<body>
+		  <p>{$this->nome} aceitou os termos de North Consultoria.</p>
+
+		</body>
+		</html>
+		";
+		$this->toSend($para, $subject, $message);
+	}
+
+	public function sendLinkTermToClient()
+	{
+
+		$para    = $this->email;
+		$subject = 'Termo de adesão - North Consultoria';
+		$message = "
+		<html>
+		<head>
+		  <title>{$this->title}</title>
+		</head>
+		<body>
+		  <p>Olá {$this->nome}, abaixo segue o link do termo de adesão do plano.</p>
+		  <p>Clique no link abaixo para aceitar os termos</p>
+		  <p><a href='https:{$this->link}'>Clique aqui para acessar o termo.</a></p> 
+
+		  <p><strong>OBS: Caso não consiga acessar o link, copie e cole o link abaixo na barra de endereço do navegador:</strong></p>
+		  <p>https:{$this->link}</p>
+		</body>
+		</html>
+		";
+
+		$this->toSend($para, $subject, $message);
+	}
+
+	private function toSend($para, $subject, $message)
+	{
 		$headers = "MIME-Version: 1.0\r\n";
-		$headers .= "From: Life Cartões <sitelifecartoes@lifecartoes.com.br>\r\n";
+		$headers .= "From: {$this->title} <{$this->emailFrom}>\r\n";
 		$headers .= "Content-type: text/html; charset=utf-8" . "\r\n";
-		$headers .= "X-Mailer: PHP/" . phpversion ();
-		
-		if(ENVIRONMENT == 'preview' || ENVIRONMENT == 'production'){
+		$headers .= "X-Mailer: PHP/" . phpversion();
+
+		// Segurança para evitar erro de envio na mensagem do e-mail
+		$message = wordwrap($message, 70, "\r\n");
+
+		if (ENVIRONMENT == 'production' || ENVIRONMENT == 'preview') {
 			mail($para, $subject, $message, $headers);
 		}
-		
 	}
 }
-
-

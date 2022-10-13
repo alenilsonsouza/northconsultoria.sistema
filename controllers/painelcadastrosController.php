@@ -184,7 +184,7 @@ class painelcadastrosController extends controller
             $peopleHandler = new N_PeopleHandler();
 
             $people->setName($nome);
-            $people->setEmail($email);
+            
             $people->setMotherName($nome_mae);
             $people->setCpf($cpf);
             $people->setBirthDate($nascimento);
@@ -211,6 +211,7 @@ class painelcadastrosController extends controller
             if ($id_endereco) {
                 $addressHandler->update($address, $id_endereco);
             } elseif ($cep && $logradouro) {
+                
                 $addressHandler->insert($address);
             }
         }
@@ -278,8 +279,9 @@ class painelcadastrosController extends controller
 
     public function indicados($id_cliente)
     {
-        $cliente = new Clientes();
-        $cliente = $cliente->getClienteById(md5($id_cliente));
+        // Pega o vendedor
+        $cliente = new N_PeopleHandler();
+        $cliente = $cliente->listOne($id_cliente,false);
 
         $this->loadTemplateInPainel('cadastros_indicados', [
             'cliente' => $cliente,

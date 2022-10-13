@@ -1,4 +1,4 @@
-const requestLocal = async (method, endpoint, params, token = null) => {
+const requestLocal = async (method, endpoint, params, token = null, toJson = true) => {
     method = method.toLowerCase();
     let fullUrl = `${BASE_URL}${endpoint}`;
     let body = null;
@@ -19,13 +19,23 @@ const requestLocal = async (method, endpoint, params, token = null) => {
         headers.Authorization = `Bearer ${token}`;
     }
     let req = await fetch(fullUrl, { method, headers, body });
-    let json = await req.json();
+    let json;
+    if(toJson) {
+        json = await req.json();
+    } else {
+        json = await req.text();
+    }
     return json;
 }
 
 const apiLocal = {
     addClientToAsass: async (data) => {
         let json = await requestLocal('post', `/home/addClientAsaasInHome`, data, null);
+        return json;
+    },
+    getClientsByConstumer: async (data) => {
+        console.log('foi aqui');
+        let json = await requestLocal('get', `ajax/relatoriovendas`, data, null, false);
         return json;
     },
 }

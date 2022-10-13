@@ -24,6 +24,19 @@
                 <label for="valor">Valor:</label>
             </div>
             <div class="input-field col s12">
+                <input type="url" name="accredit_network">
+                <label for="accredit_network">Rede Credenciada(URL):</label>
+            </div>
+            <div class="file-field input-field col s12">
+                <div class="btn">
+                    <span>O que cobre (PDF)</span>
+                    <input type="file" name="filePDF">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+            <div class="input-field col s12">
                 <textarea id="textarea1" class="materialize-textarea" name="text"></textarea>
                 <label for="textarea1">Obs:</label>
             </div>

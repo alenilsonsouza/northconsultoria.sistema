@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col s12">
-        <h5>Indicados de <?= $cliente['nome_cliente'] ?></h5>
+        <h5>Indicados de <?= $cliente['name'] ?></h5>
 
     </div>
 </div>
@@ -22,5 +22,5 @@
 <?php if (isset($id_cliente)) : ?>
     <div id="cadastrolistIndicadors" data-idindicado="0" data-idnegcio="0"></div>
 <?php else : ?>
-    <div id="cadastrolistIndicadors" data-idindicado="<?= $cliente['id_cliente']; ?>" data-idnegcio=<?= $cliente['id_negocio']; ?>></div>
+    <div id="cadastrolistIndicadors" data-idindicado="<?= $cliente['id']; ?>" data-idnegcio=""></div>
 <?php endif; ?>

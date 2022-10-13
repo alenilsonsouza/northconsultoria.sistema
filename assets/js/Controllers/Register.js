@@ -14,23 +14,74 @@ const idClient = document.querySelector('#id_client');
 const idCorretor = document.querySelector('#id_corretor');
 const typeRegisterSelect = document.querySelector('#tipo_cadastro');
 const bussinessInputArea = document.querySelector('.bussinessInput');
+const typeFinancialResponsible = document.querySelector('#financial_responsible');
+const financialResponsibleArea = document.querySelector('.financialResponsibleInput');
+
+
+
 
 formSearchCorretor.addEventListener('submit', submitFormCorretor);
 noCorretoEl.addEventListener('change', changeNoCorretor);
 btAddDependente.addEventListener('click', addDependente);
 formRegister.addEventListener('submit', registerData);
 emailInput.addEventListener('blur', verifyEmailInput);
-typeRegisterSelect.addEventListener('change', handlerChangeRegister)
+typeRegisterSelect.addEventListener('change', (e) => handlerChangeRegister(e, bussinessInputArea));
+typeFinancialResponsible.addEventListener('change', (e) => handlerChangeRegister(e, financialResponsibleArea));
+
+function getInputfiles() {
+    let inputFilesElems = document.querySelectorAll('input[type="file"]');
+    inputFilesElems.forEach(item => {
+        let ext = ['image/jpg', 'image/png', 'image/jpeg', 'image/gif', 'application/pdf'];
+        item.addEventListener('change', e => {
+            let fatherEl = e.target.parentNode;
+            let sunEl = fatherEl.querySelector('div');
+            if (sunEl) sunEl.remove();
+            let newDiv = document.createElement('div');
+            let fileName = e.target.files[0].name;
+            let fileSize = e.target.files[0].size;
+            let fileType = e.target.files[0].type;
+            let sizeMB = convertByteToMB(fileSize);
+            if (ext.find(item => item === fileType) !== undefined) {
+                if (sizeMB <= 2) {
+                    newDiv.innerHTML = `
+                    <div>
+                    <strong>Nome:</strong> ${fileName}<br><strong>Tamanho:</strong> ${sizeMB.toFixed(2)}MB<br><strong>Tipo:</strong> ${fileType}
+                    </div>
+                `;
+                } else {
+                    newDiv.innerHTML = `Arquivo com tamanho maior que 2MB não permitido.`;
+                    e.target.value = '';
+                }
+            } else {
+                newDiv.innerHTML = `Tipo de arquivo não permitido!<br>Arquivos permitidos: (JPG, PNG, GIF, PDF)`;
+                e.target.value = '';
+                newDiv.style.color = 'red';
+                newDiv.style.border = '2px solid red';
+            }
+
+            newDiv.style.padding = '15px';
+            newDiv.style.fontSize = '14px';
+            newDiv.style.lineHeight = '18px';
+            fatherEl.appendChild(newDiv);
+        });
+    });
+}
+getInputfiles();
+
+function convertByteToMB(byte) {
+    let mb = byte / (1024 * 1024);
+    return mb;
+}
 
 cpfInput.forEach(item => {
     item.addEventListener('keyup', verifyCPFInput);
 });
 bussinessInputArea.style.display = 'none';
 // Verifica se o Id corretor está preenchido
-if(parseInt(idCorretor.value) > 0) {
+if (parseInt(idCorretor.value) > 0) {
     let id = parseInt(idCorretor.value);
     getOne(id, 'C');
-} 
+}
 
 enabledDisabledInpus.forEach(item => {
     enableDisableInput(item, true);
@@ -43,7 +94,7 @@ async function verifyCPFInput(e) {
     let cpf = e.target.value;
     if (cpf.length == 14) {
         let res = await verifycpfExist(cpf);
-        if (!res.response) {
+        if (!res.response || res.response) {
             enabledDisabledInpus.forEach(item => {
                 enableDisableInput(item, false);
             });
@@ -58,14 +109,12 @@ async function verifyCPFInput(e) {
         }
     }
 }
-function handlerChangeRegister(e) {
+function handlerChangeRegister(e, element) {
     let type = parseInt(e.target.value);
-    if(type === 1) {
-        bussinessInputArea.style.display = 'none';
-    } else {
-        bussinessInputArea.style.display = 'block';
-    }
+    let value = type === 1 ? 'none' : 'block';
+    element.style.display = value;
 }
+
 async function verifyEmailInput(e) {
     let warning = document.querySelector('.warningEmail');
     let elem = e.target;
@@ -77,7 +126,7 @@ async function verifyEmailInput(e) {
         enabledDisabledInpus.forEach(item => {
             enableDisableInput(item, false);
         });
-        if (res.response === true) {
+        /*if (res.response === true) {
             elem.style.border = '4px solid red';
             formatWarningHandler(warning, true, 'E-mail já existe no sistema!');
             enabledDisabledInpus.forEach(item => {
@@ -85,7 +134,7 @@ async function verifyEmailInput(e) {
             });
             elem.removeAttribute('disabled');
             elem.style.backgroundColor = '#fff';
-        }
+        }*/
     }
 
 }
@@ -134,7 +183,7 @@ async function registerData(e) {
         kinship: ''
     }
 
-    if(parseInt(formData.get('tipo_cadastro')) === 2) {
+    if (parseInt(formData.get('tipo_cadastro')) === 2) {
         // Preencher caso esteja selecionado empresarial
         let BussinessData = {
             cnpj: formData.get('cnpj'),
@@ -148,6 +197,23 @@ async function registerData(e) {
     }
 
     let registerPostId = await registerPost(data);
+
+    // Cadastro do Responsável Financeiro se houver
+    if (parent(formData.get('financial_responsible')) === 2) {
+        let dataFinancialResponsible = {
+            id_people: registerPostId,
+            id_plan: formData.get('id_plan'),
+            name: formData.get('fr_name'),
+            birthdate: formData.get('fr_birthdate'),
+            email: formData.get('fr_email'),
+            tel_cel: formData.get('fr_tel_cel'),
+            cpf: formData.get('fr_cpf'),
+            sexo: formData.get('fr_sexo'),
+            type_register: 'RF',
+            kinship: formData.get('fr_parentesco')
+        }
+        await registerPost(dataFinancialResponsible);
+    }
 
     let confirm = false;
 
@@ -171,6 +237,13 @@ async function registerData(e) {
         doc = {
             id_people: registerPostId,
             file: formData.get('file_rg'),
+            type: 'RG'
+        }
+        await addDoc(doc);
+
+        doc = {
+            id_people: registerPostId,
+            file: formData.get('file_rg_verso'),
             type: 'RG'
         }
         await addDoc(doc);
@@ -202,9 +275,8 @@ async function registerData(e) {
     let dSexo = formData.getAll('d_sexo');
     let dParentesco = formData.getAll('d_parentesco');
     let dFileRG = formData.getAll('d_file_rg');
-    let dFileRgTitle = formData.getAll('d_file_rg_title');
+    let dFileRGVerso = formData.getAll('d_file_rg_verso');
     let dFileCPF = formData.getAll('d_file_cpf');
-    let dFileCPFTitle = formData.getAll('d_file_cpf_title');
 
     // Cadastrado de Depentende individuais
     for (let q = 0; q < dNome.length; q++) {
@@ -240,6 +312,13 @@ async function registerData(e) {
 
             doc = {
                 id_people: idDependente,
+                file: dFileRGVerso[q],
+                type: 'RG'
+            }
+            await addDoc(doc);
+
+            doc = {
+                id_people: idDependente,
                 file: dFileCPF[q],
                 type: 'CPF'
             }
@@ -264,7 +343,7 @@ async function registerData(e) {
         console.log(obj);
         addClientToAsass(obj);
         modalEl.style.display = 'none';*/
-        
+
     }
 
 }
@@ -316,6 +395,7 @@ function addDependente() {
                     <select name="d_parentesco" id="d_parentesco${n}">
                         <option value="Pai">Pai</option>
                         <option value="Mãe">Mãe</option>
+                        <option value="Esposo(a)">Esposo(a)</option>
                         <option value="Irmão">Irmão</option>
                         <option value="Irmã">Irmã</option>
                         <option value="Primo(a)">Primo(a)</option>
@@ -324,13 +404,18 @@ function addDependente() {
                     </select>
                 </div>
                 <div>
-                    <label for="d_file_rf">Foto do RG:</label>
-                    <input type="file" name="d_file_rg" id="d_file_rg${n}" required accept="image/*">
+                    <label for="d_file_rg">Foto do RG (FRENTE):</label>
+                    <input type="file" name="d_file_rg" id="d_file_rg${n}" required accept=".jpg, .jpeg, .png, .pdf, .gif">
                     <input type="hidden" name="d_file_rg_title" value="RG">
                 </div>
                 <div>
+                    <label for="d_file_rg_verso">Foto do RG (VERSO):</label>
+                    <input type="file" name="d_file_rg_verso" id="d_file_rg_verso${n}" required accept=".jpg, .jpeg, .png, .pdf, .gif">
+                    <input type="hidden" name="d_file_rg_title_verso" value="RG">
+                </div>
+                <div>
                     <label for="d_file_cpf">Foto do CPF:</label>
-                    <input type="file" name="d_file_cpf" id="d_file_cpf${n}" required accept="image/*">
+                    <input type="file" name="d_file_cpf" id="d_file_cpf${n}" required accept=".jpg, .jpeg, .png, .pdf, .gif">
                     <input type="hidden" name="d_file_cpf_title" value="CPF">
                 </div>
     `;
@@ -340,15 +425,16 @@ function addDependente() {
 
     // Cria um elemento oculto clonando o nome digitado para ser enviar via post para o PHP
     let dNameEl = document.querySelectorAll('[name="d_name"]');
-    dNameEl.forEach((item)=>{
+    dNameEl.forEach((item) => {
         let id = item.getAttribute('data-id');
-        item.addEventListener('keyup', (e)=> {
+        item.addEventListener('keyup', (e) => {
             let newName = e.target.value;
             let destEl = e.target.parentNode.querySelector(`#depentent_name${id}`);
             destEl.value = newName;
 
         })
     })
+    getInputfiles();
 }
 
 function handleremoveDependente() {
@@ -381,7 +467,7 @@ async function addClientToAsass(data) {
     loading(true);
     await apiLocal.addClientToAsass(data);
     loading(false);
-    
+
 }
 
 async function getOne(id, type) {

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col s12">
-        Total: <?=$total; ?>
+        Total: <?= $total; ?>
     </div>
 </div>
 
@@ -26,26 +26,30 @@
                     </td>
                     <td>
                         <?= $cliente['name']; ?><br>
-                        <small><?= $cliente['cpf'];?></small>
+                        <small><?= $cliente['cpf']; ?></small><br>
+                        <small><strong>Aceito Termo:</strong> <?= $cliente['termo_aceito']; ?></small>
+                        <?php if ($cliente['termo'] == 'N') : ?>
+                            <br><a href="javascript:;" data-url="<?=BASE_URL;?>ajax/sendToConfirmTerm/<?=$cliente['id'];?>" onclick=" sendEmailTerm(this);"><small>Reenviar o termo por e-mail para o cliente</small></a>
+                        <?php endif; ?>
                     </td>
                     <td>
-                        <?php if(isset($cliente['plan']['product'])):?>
-                        <?= $cliente['plan']['product'];?><br />
-                        <small><?= $cliente['plan']['price_real'];?></small>
-                        <?php endif;?>
+                        <?php if (isset($cliente['plan']['product'])) : ?>
+                            <?= $cliente['plan']['product']; ?><br />
+                            <small><?= $cliente['plan']['price_real']; ?></small>
+                        <?php endif; ?>
                     </td>
 
                     <td><?php echo $cliente['email']; ?></td>
                     <td>
-                        <?php if(isset($cliente['dependents'])):?>
-                        <a href="<?= BASE_URL; ?>painelcadastros/dependentes/<?= $cliente['id']; ?>" class="btn"><?=$cliente['dependents'];?></a>
-                        <?php endif;?>
+                        <?php if (isset($cliente['dependents'])) : ?>
+                            <a href="<?= BASE_URL; ?>painelcadastros/dependentes/<?= $cliente['id']; ?>" class="btn"><?= $cliente['dependents']; ?></a>
+                        <?php endif; ?>
                     </td>
                     <td>
-                        <a href="<?= BASE_URL; ?>painelcadastros/ver/<?=$cliente['id']; ?>" class="btn">Ver Cadastro</a>
-                        <?php if($cliente['dependents'] == 0):?>
-                        <a href="<?= BASE_URL; ?>painelcadastros/excluir/<?=$cliente['id']; ?>?pagina=clientes" class="btn" onclick="return confirm('Deseja realmente excluir o titular e os seu dependentes?')">Excluir</a>
-                        <?php endif;?>
+                        <a href="<?= BASE_URL; ?>painelcadastros/ver/<?= $cliente['id']; ?>" class="btn">Ver Cadastro</a>
+                        <?php if ($cliente['dependents'] == 0) : ?>
+                            <a href="<?= BASE_URL; ?>painelcadastros/excluir/<?= $cliente['id']; ?>?pagina=clientes" class="btn" onclick="return confirm('Deseja realmente excluir o titular e os seu dependentes?')">Excluir</a>
+                        <?php endif; ?>
                     </td>
 
                 </tr>

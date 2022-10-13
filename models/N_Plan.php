@@ -6,6 +6,8 @@ class N_Plan
     private $image;
     private $text;
     private $active;
+    private $accreditedNetwork;
+    private $cover;
 
     public function setProduct(string $product)
     {
@@ -27,6 +29,12 @@ class N_Plan
     {
         $this->active = $active;
     }
+    public function setAccreditedNetWork(string $accreditedNetwork) {
+        $this->accreditedNetwork = $accreditedNetwork;
+    }
+    public function setCover($cover) {
+        $this->cover = $cover;
+    }
 
     public function getProduct()
     {
@@ -47,5 +55,11 @@ class N_Plan
     public function getActive()
     {
         return $this->active;
+    }
+    public function getAccreditedNetwork() {
+        return $this->accreditedNetwork;
+    }
+    public function getCover() {
+        return $this->cover;
     }
 }
