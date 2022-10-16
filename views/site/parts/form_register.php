@@ -220,6 +220,11 @@
                 <input type="file" name="file_cr" id="file_cr" required accept=".jpg, .jpeg, .png, .pdf, .gif" class="input-enableDisabled">
                 <input type="hidden" name="file_cr_title" value="CR">
             </div>
+            <div>
+                <label for="file_co">Contrato Em PDF (Opcional):</label>
+                <input type="file" name="file_co" id="file_co" accept=".jpg, .jpeg, .png, .pdf, .gif" class="input-enableDisabled">
+                <input type="hidden" name="file_co_title" value="CO">
+            </div>
         </div>
         <h3>Dependentes</h3>
 

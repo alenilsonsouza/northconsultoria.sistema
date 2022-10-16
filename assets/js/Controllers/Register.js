@@ -17,9 +17,6 @@ const bussinessInputArea = document.querySelector('.bussinessInput');
 const typeFinancialResponsible = document.querySelector('#financial_responsible');
 const financialResponsibleArea = document.querySelector('.financialResponsibleInput');
 
-
-
-
 formSearchCorretor.addEventListener('submit', submitFormCorretor);
 noCorretoEl.addEventListener('change', changeNoCorretor);
 btAddDependente.addEventListener('click', addDependente);
@@ -199,7 +196,7 @@ async function registerData(e) {
     let registerPostId = await registerPost(data);
 
     // Cadastro do Responsável Financeiro se houver
-    if (parent(formData.get('financial_responsible')) === 2) {
+    if (parseInt(formData.get('financial_responsible')) === 2) {
         let dataFinancialResponsible = {
             id_people: registerPostId,
             id_plan: formData.get('id_plan'),
@@ -233,6 +230,8 @@ async function registerData(e) {
         await addAddressRegister(dataAddress);
 
         // Documentos do titular
+
+        // RG FRENTE
         let doc;
         doc = {
             id_people: registerPostId,
@@ -241,6 +240,7 @@ async function registerData(e) {
         }
         await addDoc(doc);
 
+        // RG VERSO
         doc = {
             id_people: registerPostId,
             file: formData.get('file_rg_verso'),
@@ -248,6 +248,7 @@ async function registerData(e) {
         }
         await addDoc(doc);
 
+        // CPF
         doc = {
             id_people: registerPostId,
             file: formData.get('file_cpf'),
@@ -256,6 +257,7 @@ async function registerData(e) {
         }
         await addDoc(doc);
 
+        // Comprovante de Residência
         doc = {
             id_people: registerPostId,
             file: formData.get('file_cr'),
@@ -264,6 +266,15 @@ async function registerData(e) {
         }
         await addDoc(doc);
 
+        // Envio do contrato
+        if(formData.has('file_co')) {
+            doc = {
+                id_people: registerPostId,
+                file: formData.get('file_co'),
+                type: 'CO'
+            }
+            await addDoc(doc);
+        }
     }
 
     // Pegar informações dos dependentes (ALL)
@@ -330,7 +341,6 @@ async function registerData(e) {
     // mensagem de confirmação
     if (confirm) {
         idClient.value = registerPostId;
-
         formRegister.submit();
 
         // novo...

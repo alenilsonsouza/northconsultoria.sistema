@@ -118,11 +118,12 @@ class painelcadastrosController extends controller
             $addressHandler->insert($address);
 
             Redirect::link('painelcadastros');
-            
         }
     }
     public function ver($id)
     {
+        $addRF = filter_input(INPUT_GET, 'fradd');
+
         $pessoa = new N_PeopleHandler();
         $cliente = $pessoa->listOne($id);
 
@@ -149,13 +150,48 @@ class painelcadastrosController extends controller
             'estados' => $estados,
             'estadoCivil' => $estado_civil,
             'typeFiles' => $typeFiles,
-            'linkToAction' => 'storageCliente'
+            'linkToAction' => 'storageCliente',
+            'addRF' => $addRF
         ]);
     }
 
     public function storageCliente()
     {
+        // Id do Titular
+        $id_cliente = filter_input(INPUT_POST, 'id_cliente');
 
+        // Dados do Responsável Financeiro se houver
+
+        $RFId = filter_input(INPUT_POST, 'fr_id');
+        $RFName = filter_input(INPUT_POST, 'fr_name');
+        $RFCPF = filter_input(INPUT_POST, 'fr_cpf');
+        $RFEmail = filter_input(INPUT_POST, 'fr_email');
+        $RFBirthdate = filter_input(INPUT_POST, 'fr_birthdate');
+        $RFSexo = filter_input(INPUT_POST, 'fr_sexo');
+        $RFTelCel = filter_input(INPUT_POST, 'fr_tel_cel');
+        $RFKinship = filter_input(INPUT_POST, 'fr_kinship');
+
+        if ($RFName) {
+            $people = new N_People();
+            $peopleHandler = new N_PeopleHandler();
+            $people->setName($RFName);
+            $people->setEmail($RFEmail);
+            $people->setCpf($RFCPF);
+            $people->setBirthDate($RFBirthdate);
+            $people->setSexo($RFSexo);
+            $people->setTelFix($RFTelCel);
+            $people->setTelCel($RFTelCel);
+            $people->setKinship($RFKinship);
+            if($RFId) {
+                $peopleHandler->update($people, $RFId, true);
+            } else {
+                $people->setIdPeople($id_cliente);
+                $people->setTypeReister('RF');
+                $peopleHandler->insert($people);
+            }
+        }
+
+        // Dados do titular
         $nome = filter_input(INPUT_POST, 'nome');
         $email = filter_input(INPUT_POST, 'email');
         $nome_mae = filter_input(INPUT_POST, 'nome_mae');
@@ -175,7 +211,7 @@ class painelcadastrosController extends controller
         $bairro = filter_input(INPUT_POST, 'bairro');
         $cidade = filter_input(INPUT_POST, 'cidade');
         $estado = filter_input(INPUT_POST, 'estado');
-        $id_cliente = filter_input(INPUT_POST, 'id_cliente');
+        
         $id_endereco = filter_input(INPUT_POST, 'id_endereco');
 
         if ($nome) {
@@ -184,7 +220,7 @@ class painelcadastrosController extends controller
             $peopleHandler = new N_PeopleHandler();
 
             $people->setName($nome);
-            
+
             $people->setMotherName($nome_mae);
             $people->setCpf($cpf);
             $people->setBirthDate($nascimento);
@@ -211,13 +247,22 @@ class painelcadastrosController extends controller
             if ($id_endereco) {
                 $addressHandler->update($address, $id_endereco);
             } elseif ($cep && $logradouro) {
-                
+
                 $addressHandler->insert($address);
             }
         }
 
         header('Location:' . BASE_URL . 'painelcadastros/ver/' . $id_cliente);
         exit;
+    }
+
+    public function deleterf($idRF) {
+        $idTitular = filter_input(INPUT_GET, 'idTitular');
+
+        $people = new N_PeopleHandler();
+        $people->deleteRF($idRF);
+
+        Redirect::link('painelcadastros/ver/'.$idTitular);
     }
 
     public function storageDocumentos()
@@ -281,7 +326,7 @@ class painelcadastrosController extends controller
     {
         // Pega o vendedor
         $cliente = new N_PeopleHandler();
-        $cliente = $cliente->listOne($id_cliente,false);
+        $cliente = $cliente->listOne($id_cliente, false);
 
         $this->loadTemplateInPainel('cadastros_indicados', [
             'cliente' => $cliente,

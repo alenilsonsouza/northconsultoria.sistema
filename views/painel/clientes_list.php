@@ -8,9 +8,9 @@
     <div class="col s12">
         <table class="striped">
             <tr>
-                <th width="50">ID</th>
-                <th width="150">Dt Cadastro</th>
-                <th>Nome</th>
+                <th width="30">ID</th>
+                <th width="250">Dt Cadastro / Resp. Finan.</th>
+                <th width="250">Nome</th>
                 <th>Plano</th>
                 <th>E-mail</th>
                 <th>Depends.</th>
@@ -22,14 +22,24 @@
                         <?= $cliente['id']; ?>
                     </td>
                     <td>
-                        <?= date('d/m/Y', strtotime($cliente['date_register'])); ?><br>
+                        <strong>Data Cadastrado</strong>: <?= date('d/m/Y', strtotime($cliente['date_register'])); ?><br>
+                        <strong>Responsável Financeiro:</strong><br>
+                        <?php if (is_array($cliente['responsavel_financeiro'])) : ?>
+                            <?php $RF = $cliente['responsavel_financeiro']; ?>
+                            <?= $RF['name']; ?><br>
+                            CPF: <?= $RF['cpf']; ?><br>
+                            E-mail: <?= $RF['email']; ?>
+
+                        <?php else : ?>
+                            Titular
+                        <?php endif; ?>
                     </td>
                     <td>
                         <?= $cliente['name']; ?><br>
                         <small><?= $cliente['cpf']; ?></small><br>
                         <small><strong>Aceito Termo:</strong> <?= $cliente['termo_aceito']; ?></small>
                         <?php if ($cliente['termo'] == 'N') : ?>
-                            <br><a href="javascript:;" data-url="<?=BASE_URL;?>ajax/sendToConfirmTerm/<?=$cliente['id'];?>" onclick=" sendEmailTerm(this);"><small>Reenviar o termo por e-mail para o cliente</small></a>
+                            <br><a href="javascript:;" data-url="<?= BASE_URL; ?>ajax/sendToConfirmTerm/<?= $cliente['id']; ?>" onclick=" sendEmailTerm(this);"><small>Reenviar o termo por e-mail para o cliente</small></a>
                         <?php endif; ?>
                     </td>
                     <td>

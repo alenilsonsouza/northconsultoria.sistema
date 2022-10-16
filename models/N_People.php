@@ -16,6 +16,7 @@ class N_People
     private $sexo;
     private $marital_status;
     private $type_register;
+    private $kinship;
 
     public function setIdPeople($id_people = 0)
     {
@@ -73,6 +74,10 @@ class N_People
     {
         $this->type_register = $type_register;
     }
+    public function setKinship(string $kinship)
+    {
+        $this->kinship = $kinship;
+    }
 
     public function getIdPeople()
     {
@@ -129,5 +134,9 @@ class N_People
     public function getTypeReister()
     {
         return $this->type_register;
+    }
+    public function getKinship()
+    {
+        return $this->kinship;
     }
 }

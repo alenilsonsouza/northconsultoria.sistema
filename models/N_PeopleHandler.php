@@ -6,11 +6,9 @@ class N_PeopleHandler extends model
     public function insert(N_People $people)
     {
         $sql = "INSERT INTO {$this->table} 
-        (id_people, id_plan, `name`, mother_name, email, tel_fix, tel_cel, birthdate, cpf, rg, `from`, sexo, marital_status, type_register, date_register) 
-        VALUES (:id_people, :id_plan, :name, :mother_name, :email, :tel_fix, :tel_cel, :birthdate, :cpf, :rg, :from, :sexo, :marital_status, :type_register, :date_register)";
+        (id_people, id_plan, `name`, mother_name, email, tel_fix, tel_cel, birthdate, cpf, rg, `from`, sexo, marital_status, type_register, date_register, kinship) 
+        VALUES (:id_people, :id_plan, :name, :mother_name, :email, :tel_fix, :tel_cel, :birthdate, :cpf, :rg, :from, :sexo, :marital_status, :type_register, :date_register, :kinship)";
         $sql = $this->db->prepare($sql);
-        echo '<pre>';
-        var_dump($people);
         $sql->execute([
             'id_people' => $people->getIdPeople(),
             'id_plan' => $people->getIdPlan(),
@@ -26,34 +24,60 @@ class N_PeopleHandler extends model
             'sexo' => $people->getSexo(),
             'marital_status' => $people->getMaritalStatus(),
             'type_register' => $people->getTypeReister(),
-            'date_register' => date('Y-m-d')
+            'date_register' => date('Y-m-d'),
+            'kinship' => $people->getKinship()
         ]);
 
         $id = $this->db->lastInsertId();
         return $id;
     }
 
-    public function update(N_People $people, $id)
+    public function update(N_People $people, $id, $RFUpdate = false)
     {
-        $sql = "UPDATE {$this->table} SET `name` = :name, mother_name = :mother_name, email = :email, tel_fix = :tel_fix, tel_cel = :tel_cel, birthdate = :birthdate, cpf = :cpf, rg = :rg, `from` = :from, sexo = :sexo, marital_status = :marital_status WHERE id = :id";
-        $sql = $this->db->prepare($sql);
-        $sql->execute([
-            'name' => $people->getName(),
-            'mother_name' => $people->getMotherName(),
-            'email' => $people->getEmail(),
-            'tel_fix' => $people->getTelFix(),
-            'tel_cel' => $people->getTelCel(),
-            'birthdate' => $people->getBirthDate(),
-            'cpf' => $people->getCPF(),
-            'rg' => $people->getRg(),
-            'from' => $people->getFrom(),
-            'sexo' => $people->getSexo(),
-            'marital_status' => $people->getMaritalStatus(),
-            'id' => $id
-        ]);
+        if ($RFUpdate == false) {
+            $sql = "UPDATE {$this->table} 
+        SET `name` = :name, mother_name = :mother_name, 
+        email = :email, tel_fix = :tel_fix, tel_cel = :tel_cel, 
+        birthdate = :birthdate, cpf = :cpf, 
+        rg = :rg, `from` = :from, sexo = :sexo, 
+        marital_status = :marital_status WHERE id = :id";
+            $sql = $this->db->prepare($sql);
+            $sql->execute([
+                'name' => $people->getName(),
+                'mother_name' => $people->getMotherName(),
+                'email' => $people->getEmail(),
+                'tel_fix' => $people->getTelFix(),
+                'tel_cel' => $people->getTelCel(),
+                'birthdate' => $people->getBirthDate(),
+                'cpf' => $people->getCPF(),
+                'rg' => $people->getRg(),
+                'from' => $people->getFrom(),
+                'sexo' => $people->getSexo(),
+                'marital_status' => $people->getMaritalStatus(),
+                'id' => $id
+            ]);
+        } else {
+            $sql = "UPDATE {$this->table} 
+        SET `name` = :name, email = :email, tel_fix = :tel_fix, tel_cel = :tel_cel, 
+        birthdate = :birthdate, cpf = :cpf, sexo = :sexo, 
+        kinship = :kinship WHERE id = :id";
+            $sql = $this->db->prepare($sql);
+            $sql->execute([
+                'name' => $people->getName(),
+                'email' => $people->getEmail(),
+                'tel_fix' => $people->getTelFix(),
+                'tel_cel' => $people->getTelCel(),
+                'birthdate' => $people->getBirthDate(),
+                'cpf' => $people->getCPF(),
+                'sexo' => $people->getSexo(),
+                'kinship' => $people->getKinship(),
+                'id' => $id
+            ]);
+        }
     }
 
-    public function updateIdAsaas($idAsaas, $id) {
+    public function updateIdAsaas($idAsaas, $id)
+    {
         $sql = "UPDATE {$this->table} SET id_asaas = :id_asaas WHERE id = :id";
         $sql = $this->db->prepare($sql);
         $sql->execute([
@@ -75,13 +99,22 @@ class N_PeopleHandler extends model
         ]);
     }
 
+    public function deleteRF($idRF) {
+        $sql = "DELETE FROM {$this->table} WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            ':id' => $idRF
+        ]);
+    }
+
     public function list($type = '', $id = '', $offset = '', $limit = '')
     {
         /**
          * @param $type
          * - 'T' -> Titular,
          * - 'D' -> Dependente,
-         * - 'C' -> Corretor
+         * - 'C' -> Corretor,
+         * - 'RF' -> Responsável Financeiro
          * @param $id
          * 
          */
@@ -147,7 +180,7 @@ class N_PeopleHandler extends model
 
         $array = [];
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
-        if($md5){
+        if ($md5) {
             $sql = "SELECT * FROM {$this->table} WHERE MD5(id) = :id";
         }
         $sql = $this->db->prepare($sql);
@@ -161,11 +194,12 @@ class N_PeopleHandler extends model
         return $array;
     }
 
-    public function listIndicateds($id) {
+    public function listIndicateds($id)
+    {
         $sql = "SELECT * FROM {$this->table} WHERE id_people = :id ORDER BY id DESC";
         $sql = $this->db->prepare($sql);
         $sql->execute([
-            ':id'=> $id
+            ':id' => $id
         ]);
         if ($sql->rowCount() > 0) {
             $list = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -174,7 +208,8 @@ class N_PeopleHandler extends model
         return $array;
     }
 
-    public function listCostumers() {
+    public function listCostumers()
+    {
         $array = [];
         $sql = "SELECT * FROM {$this->table} WHERE `type_register` = 'C' ORDER BY `name` ASC";
         $sql = $this->db->prepare($sql);
@@ -186,7 +221,8 @@ class N_PeopleHandler extends model
         return $array;
     }
 
-    public function listClientByConstumer($id_costumer, $start_date, $final_date) {
+    public function listClientByConstumer($id_costumer, $start_date, $final_date)
+    {
         $array = [];
         $sql = "SELECT * FROM {$this->table} WHERE id_people = :id_costumer AND date_register BETWEEN :start_date AND :final_date;";
         $sql = $this->db->prepare($sql);
@@ -202,30 +238,32 @@ class N_PeopleHandler extends model
         return $array;
     }
 
-    public function verifyCheckedTerm($id) {
+    public function verifyCheckedTerm($id)
+    {
 
         $res = false;
-		$sql = "SELECT * FROM {$this->table} WHERE id = :id";
-		$sql = $this->db->prepare($sql);
-		$sql->execute([
-			':id' => $id
-		]);
-		if($sql->rowCount() > 0) {
-			$item = $sql->fetch(PDO::FETCH_ASSOC);
-			if($item['termo'] == 'S'){
-				$res = true;
-			}
-		}
-		return $res;
+        $sql = "SELECT * FROM {$this->table} WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            ':id' => $id
+        ]);
+        if ($sql->rowCount() > 0) {
+            $item = $sql->fetch(PDO::FETCH_ASSOC);
+            if ($item['termo'] == 'S') {
+                $res = true;
+            }
+        }
+        return $res;
     }
 
-    public function aceitoTermo($id) {
+    public function aceitoTermo($id)
+    {
         $sql = "UPDATE {$this->table} SET termo = :termo WHERE id = :id";
-		$sql = $this->db->prepare($sql);
-		$sql->execute([
-			':termo' => 'S',
-			':id' => $id
-		]);
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            ':termo' => 'S',
+            ':id' => $id
+        ]);
     }
 
     public function listHoldersByIdPeople($id_people)
@@ -272,7 +310,8 @@ class N_PeopleHandler extends model
         return $item['t'];
     }
 
-    public function verifySenderExists($id) {
+    public function verifySenderExists($id)
+    {
         $array = [];
         $sql = "SELECT id, name FROM {$this->table} WHERE id = :id AND type_register = 'C'";
         $sql = $this->db->prepare($sql);
@@ -280,10 +319,27 @@ class N_PeopleHandler extends model
             'id' => $id
         ]);
 
-        if($sql->rowCount()>0) {
+        if ($sql->rowCount() > 0) {
             $array = $sql->fetch();
         }
 
+        return $array;
+    }
+
+    private function verifyFinancialResponsibleExists($id_people)
+    {
+        $array = false;
+        $sql = "SELECT id, name, email, tel_cel, birthdate, cpf, type_register, kinship, sexo 
+        FROM {$this->table} 
+        WHERE id_people = :id AND type_register = 'RF'";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            'id' => $id_people
+        ]);
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch();
+        }
         return $array;
     }
 
@@ -291,7 +347,7 @@ class N_PeopleHandler extends model
     private function listHandler($type, $list)
     {
         /**
-         * @param string
+         * @param $type string
          * 'ALL' => gerar list
          * 'ONE' => pegar um item
          */
@@ -317,7 +373,8 @@ class N_PeopleHandler extends model
                 }
                 $array[$k]['files'] = $file->listByPeople($list[$k]['id']);
                 $array[$k]['type_register_text'] = $this->typeRegisterHandler($list[$k]['type_register']);
-                $array[$k]['termo_aceito'] = $array[$k]['termo'] == 'S'?'SIM':'NÃO';
+                $array[$k]['termo_aceito'] = $array[$k]['termo'] == 'S' ? 'SIM' : 'NÃO';
+                $array[$k]['responsavel_financeiro'] = $this->verifyFinancialResponsibleExists($list[$k]['id']); // false || array
             }
         } elseif ($type == 'ONE') {
             $array = $list;
@@ -335,7 +392,8 @@ class N_PeopleHandler extends model
             }
             $array['files'] = $file->listByPeople($list['id']);
             $array['type_register_text'] = $this->typeRegisterHandler($list['type_register']);
-            $array['termo_aceito'] = $array['termo'] == 'S'?'SIM':'NÃO';
+            $array['termo_aceito'] = $array['termo'] == 'S' ? 'SIM' : 'NÃO';
+            $array['responsavel_financeiro'] = $this->verifyFinancialResponsibleExists($list['id']); // false || array
         }
 
         return $array;

@@ -41,6 +41,11 @@ class N_File extends model
                         'type' => $typeDoc,
                         'date_register' => date('Y-m-d')
                     ]);
+
+                    if($typeDoc == 'CO') {
+                        $people = new N_PeopleHandler();
+                        $people->aceitoTermo($id_people);
+                    }
                 }
             }
         } else {
@@ -123,6 +128,9 @@ class N_File extends model
             case 'CR':
                 $res = 'Comprovante de Residência';
                 break;
+            case 'CO':
+                $res = 'Contrato (PDF)';
+                break;
             default:
                 $res = 'Documento';
         }
@@ -136,7 +144,8 @@ class N_File extends model
         return [
             ['type' => 'RG', 'type_text' => $this->typeHandler('RG')],
             ['type' => 'CPF', 'type_text' => $this->typeHandler('CPF')],
-            ['type' => 'CR', 'type_text' => $this->typeHandler('CR')]
+            ['type' => 'CR', 'type_text' => $this->typeHandler('CR')],
+            ['type' => 'CO', 'type_text' => $this->typeHandler('CO')]
         ];
     }
 
@@ -148,7 +157,7 @@ class N_File extends model
          */
 
         // Extensões aceitas para updaload
-        $type = ['jpg', 'png', 'gif', 'jpeg'];
+        $type = ['jpg', 'png', 'gif', 'jpeg', 'pdf'];
 
         // Pega apenas a extensão da image
         $array = explode('.', $name);
