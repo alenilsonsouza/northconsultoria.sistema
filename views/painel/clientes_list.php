@@ -9,12 +9,12 @@
         <table class="striped">
             <tr>
                 <th width="30">ID</th>
-                <th width="250">Dt Cadastro / Resp. Finan.</th>
+                <th width="200">Resp. Finan.</th>
                 <th width="250">Nome</th>
                 <th>Plano</th>
                 <th>E-mail</th>
                 <th>Depends.</th>
-                <th width="320">Ações</th>
+                <th width="340">Ações</th>
             </tr>
             <?php foreach ($clientes as $cliente) : ?>
                 <tr>
@@ -22,17 +22,17 @@
                         <?= $cliente['id']; ?>
                     </td>
                     <td>
-                        <strong>Data Cadastrado</strong>: <?= date('d/m/Y', strtotime($cliente['date_register'])); ?><br>
-                        <strong>Responsável Financeiro:</strong><br>
+                        <?= date('d/m/Y', strtotime($cliente['date_register'])); ?><br>
+                        <small><strong>Responsável Financeiro:</strong><br>
                         <?php if (is_array($cliente['responsavel_financeiro'])) : ?>
                             <?php $RF = $cliente['responsavel_financeiro']; ?>
                             <?= $RF['name']; ?><br>
                             CPF: <?= $RF['cpf']; ?><br>
                             E-mail: <?= $RF['email']; ?>
-
                         <?php else : ?>
                             Titular
                         <?php endif; ?>
+                        </small>
                     </td>
                     <td>
                         <?= $cliente['name']; ?><br>

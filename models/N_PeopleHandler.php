@@ -221,6 +221,35 @@ class N_PeopleHandler extends model
         return $array;
     }
 
+    public function listHolderNotArchived($offset, $limit)
+    {
+        $array = [];
+        $sql = "SELECT * FROM {$this->table} WHERE `type_register` = 'T' AND `arquivado` = 'N' ORDER BY `id` DESC LIMIT {$offset}, {$limit}";
+        $sql = $this->db->prepare($sql);
+        $sql->execute();
+        if ($sql->rowCount() > 0) {
+            $list = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $array = $this->listHandler('ALL', $list);
+        }
+        return $array;
+    }
+
+    public function totalHolderNotArchived() {
+        $sql = "SELECT COUNT(*) AS t FROM {$this->table} WHERE `type_register` = 'T' AND `arquivado` = 'N'";
+        $sql = $this->db->query($sql);
+        $res = $sql->fetch();
+
+        return $res['t'];
+    }
+
+    public function archiveHolder($id) {
+        $sql = "UPDATE {$this->table} SET `arquivado` = 'S' WHERE `id` = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([
+            ':id' => $id
+        ]);
+    }
+
     public function listClientByConstumer($id_costumer, $start_date, $final_date)
     {
         $array = [];

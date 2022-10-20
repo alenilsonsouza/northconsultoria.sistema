@@ -36,6 +36,14 @@
                     <input class="file-path validate" type="text">
                 </div>
             </div>
+            <div class="input-field col s6">
+                <input type="number" name="due_day" min="1" max="30" required>
+                <label for="due_day">Dia de Vencimento:</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="number" name="effective_day" min="1" max="30" required>
+                <label for="effective_day">Dia da Vigência:</label>
+            </div>
             <div class="input-field col s12">
                 <textarea id="textarea1" class="materialize-textarea" name="text"></textarea>
                 <label for="textarea1">Obs:</label>
@@ -52,6 +60,7 @@
             <tr>
                 <th width="150">Logo</th>
                 <th>Plano</th>
+                <th>Vencimento / Vigência</th>
                 <th>Valor</th>
                 <th>Status</th>
                 <th>Ações</th>
@@ -67,6 +76,10 @@
                     <td>
                         <?= $plano['product']; ?><br />
                         <small>Cadastros: <?= $plano['total_people'];?></small>
+                    </td>
+                    <td>
+                        Dia vencimento: <?=$plano['due_day'];?><br>
+                        Dia vigência: <?=$plano['effective_day'];?>
                     </td>
                     <td>
                         <?= $plano['price_real']; ?>

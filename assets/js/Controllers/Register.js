@@ -266,8 +266,8 @@ async function registerData(e) {
         }
         await addDoc(doc);
 
-        // Envio do contrato
-        if(formData.has('file_co')) {
+        // Envio do contrato (opcional)
+        if(formData.get('file_co').name.length > 0) {
             doc = {
                 id_people: registerPostId,
                 file: formData.get('file_co'),

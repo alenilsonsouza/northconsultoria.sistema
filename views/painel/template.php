@@ -65,6 +65,7 @@ $configuracoes = $c->getArray();
       <nav class="menuVertical">
         <ul>
           <li><a href="<?php echo BASE_URL; ?>painel" class="<?php echo ($p == 'painel') ? 'ativo' : ''; ?>"><i class="material-icons left">dashboard</i>Dashbord</a></li>
+          <li><a href="<?php echo BASE_URL; ?>painelcadastros/vendas" class="<?php echo ($p == 'vendas') ? 'ativo' : ''; ?>"><i class="material-icons left">content_paste</i>Vendas</a></li>
           <li><a href="<?php echo BASE_URL; ?>painelcadastros" class="<?php echo ($p == 'cadastros') ? 'ativo' : ''; ?>"><i class="material-icons left">person_pin</i>Vendedores</a></li>
           <li><a href="<?php echo BASE_URL; ?>painelcadastros/clientes" class="<?php echo ($p == 'clientes') ? 'ativo' : ''; ?>"><i class="material-icons left">person_pin</i>Clientes</a></li>
           <li><a href="<?php echo BASE_URL; ?>painelplanos" class="<?php echo ($p == 'planos') ? 'ativo' : ''; ?>"><i class="material-icons left">format_list_bulleted</i>Planos</a></li>

@@ -182,7 +182,7 @@ class painelcadastrosController extends controller
             $people->setTelFix($RFTelCel);
             $people->setTelCel($RFTelCel);
             $people->setKinship($RFKinship);
-            if($RFId) {
+            if ($RFId) {
                 $peopleHandler->update($people, $RFId, true);
             } else {
                 $people->setIdPeople($id_cliente);
@@ -211,7 +211,7 @@ class painelcadastrosController extends controller
         $bairro = filter_input(INPUT_POST, 'bairro');
         $cidade = filter_input(INPUT_POST, 'cidade');
         $estado = filter_input(INPUT_POST, 'estado');
-        
+
         $id_endereco = filter_input(INPUT_POST, 'id_endereco');
 
         if ($nome) {
@@ -256,13 +256,14 @@ class painelcadastrosController extends controller
         exit;
     }
 
-    public function deleterf($idRF) {
+    public function deleterf($idRF)
+    {
         $idTitular = filter_input(INPUT_GET, 'idTitular');
 
         $people = new N_PeopleHandler();
         $people->deleteRF($idRF);
 
-        Redirect::link('painelcadastros/ver/'.$idTitular);
+        Redirect::link('painelcadastros/ver/' . $idTitular);
     }
 
     public function storageDocumentos()
@@ -461,5 +462,50 @@ class painelcadastrosController extends controller
             'page' => 'clientes',
 
         ]);
+    }
+
+    public function vendas()
+    {
+
+        $p = filter_input(INPUT_GET, 'p');
+
+        $pessoa = new N_PeopleHandler();
+        $limit = 25;
+
+        $total = $pessoa->totalHolderNotArchived();
+
+        $paginas = ceil($total / $limit);
+
+        $paginaAtual = 1;
+        if ($p) {
+            $paginaAtual = $p;
+        }
+
+        $offset = ($paginaAtual * $limit) - $limit;
+
+        $pessoas = $pessoa->listHolderNotArchived($offset, $limit);
+
+        $this->loadTemplateInPainel('clientes_vendas', [
+            'page' => 'vendas',
+            'pessoas' => $pessoas,
+            'paginaAtual' => $paginaAtual,
+            'paginas' => $paginas,
+            'total' => $total
+        ]);
+    }
+
+    public function updateArchived()
+    {
+
+        $p = filter_input(INPUT_GET, 'p');
+
+        if (isset($_POST['id_people'][0])) {
+            foreach ($_POST['id_people'] as $id) {
+                $people = new N_PeopleHandler();
+                $people->archiveHolder($id);
+            }
+        }
+
+        Redirect::link('painelcadastros/vendas?p=' . $p);
     }
 }

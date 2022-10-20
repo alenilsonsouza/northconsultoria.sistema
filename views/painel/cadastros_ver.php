@@ -2,7 +2,7 @@
     <div class="col s12">
         <nav class="menuInterno">
             <ul>
-                <li><a href="<?= BASE_URL; ?>painelcadastros">Voltar</a></li>
+                <li><a href="javascript:window.history.back();">Voltar</a></li>
             </ul>
         </nav>
     </div>

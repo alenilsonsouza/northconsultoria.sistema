@@ -59,6 +59,14 @@
                     <input class="file-path validate" type="text">
                 </div>
             </div>
+            <div class="input-field col s6">
+                <input type="number" name="due_day" min="1" max="30" required value="<?=$plano['due_day'];?>">
+                <label for="due_day">Dia de Vencimento:</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="number" name="effective_day" min="1" max="30" required value="<?=$plano['effective_day'];?>">
+                <label for="effective_day">Dia da Vigência:</label>
+            </div>
             <div class="input-field col s12">
                 <textarea id="textarea1" class="materialize-textarea" name="text"><?= $plano['text']; ?></textarea>
                 <label for="textarea1">Obs:</label>

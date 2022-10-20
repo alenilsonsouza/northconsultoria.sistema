@@ -129,7 +129,7 @@ class N_File extends model
                 $res = 'Comprovante de Residência';
                 break;
             case 'CO':
-                $res = 'Contrato (PDF)';
+                $res = 'Contrato';
                 break;
             default:
                 $res = 'Documento';

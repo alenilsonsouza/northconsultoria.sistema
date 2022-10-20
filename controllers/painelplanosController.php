@@ -32,6 +32,8 @@ class painelplanosController extends controller
         $price = filter_input(INPUT_POST, 'price');
         $text = filter_input(INPUT_POST, 'text');
         $accreditNetWork = filter_input(INPUT_POST, 'accredit_network');
+        $due_day = filter_input(INPUT_POST, 'due_day');
+        $effective_day = filter_input(INPUT_POST, 'effective_day');
         $file = $_FILES['file'];
         $filePDF = $_FILES['filePDF'];
 
@@ -45,7 +47,9 @@ class painelplanosController extends controller
                 $plan->setText($text);
                 $plan->setImage($file); // Arquivo enviado e configurado internamente
                 $plan->setAccreditedNetWork($accreditNetWork);
-                if(isset($filePDF['tmp_name'])) {
+                $plan->setDueDay($due_day);
+                $plan->setEffectiveDay($effective_day);
+                if (isset($filePDF['tmp_name'])) {
                     $plan->setCover($filePDF);
                 }
                 $planHandler->insert($plan);
@@ -83,6 +87,8 @@ class painelplanosController extends controller
         $price = filter_input(INPUT_POST, 'price');
         $text = filter_input(INPUT_POST, 'text');
         $accreditNetWork = filter_input(INPUT_POST, 'accredited_network');
+        $due_day = filter_input(INPUT_POST, 'due_day');
+        $effective_day = filter_input(INPUT_POST, 'effective_day');
         $id = filter_input(INPUT_POST, 'id');
         $file = $_FILES['file'];
         $filePDF = $_FILES['filePDF'];
@@ -100,10 +106,12 @@ class painelplanosController extends controller
             $plan->setPrice(Moeda::setValorFloat($price));
             $plan->setText($text);
             $plan->setAccreditedNetWork($accreditNetWork);
-            if(isset($file['tmp_name'])) {
+            $plan->setDueDay($due_day);
+            $plan->setEffectiveDay($effective_day);
+            if (isset($file['tmp_name'])) {
                 $plan->setImage($file);
-            } 
-            if(isset($filePDF['tmp_name'])) {
+            }
+            if (isset($filePDF['tmp_name'])) {
                 $plan->setCover($filePDF);
             }
             $planHandler->update($plan, $id);
@@ -113,7 +121,8 @@ class painelplanosController extends controller
         exit;
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
 
         $planHandler = new N_PlanHandler();
         $planHandler->delete($id);

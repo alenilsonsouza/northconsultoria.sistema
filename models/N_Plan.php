@@ -8,6 +8,8 @@ class N_Plan
     private $active;
     private $accreditedNetwork;
     private $cover;
+    private $due_day;
+    private $effective_day;
 
     public function setProduct(string $product)
     {
@@ -35,6 +37,12 @@ class N_Plan
     public function setCover($cover) {
         $this->cover = $cover;
     }
+    public function setDueDay($due_day) {
+        $this->due_day = $due_day;
+    }
+    public function setEffectiveDay($effective_day) {
+        $this->effective_day = $effective_day;
+    }
 
     public function getProduct()
     {
@@ -61,5 +69,11 @@ class N_Plan
     }
     public function getCover() {
         return $this->cover;
+    }
+    public function getDueDay() {
+        return $this->due_day;
+    }
+    public function getEffectiveDay() {
+        return $this->effective_day;
     }
 }

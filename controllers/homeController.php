@@ -110,6 +110,8 @@ class homeController extends controller
       $tel_cel = filter_input(INPUT_POST, 'tel_cel');
     }
 
+
+
     // Informações de endereço
     $cep = filter_input(INPUT_POST, 'cep');
     $logradouro = filter_input(INPUT_POST, 'logradouro');
@@ -177,8 +179,14 @@ class homeController extends controller
         $people = new N_PeopleHandler();
         $people->updateIdAsaas($idAsaas, $id_client);
 
+        $id_plan = filter_input(INPUT_POST, 'id_plan');
+
+        // Informações do Plano adiquirido
+        $plan = new N_PlanHandler();
+        $plan = $plan->listOne($id_plan);
+
         // Dia de vencimento dos boletos subsequentes
-        $dueDay = 15;
+        $dueDay = intval($plan['due_day']);
 
         // Captura da data de hoje
         $today = date('d');
