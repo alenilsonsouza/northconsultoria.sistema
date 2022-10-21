@@ -234,8 +234,22 @@
         <div class="areaAddDependentes">
             <button type="button" id="addDependente">+ Adicionar Dependentes</button>
         </div>
-        <h3>Aviso de Vigência</h3>
-        <p>A Vigência sempre é dia 15 para cadastros efetuados até dia 05 de cada mês.</p>
+        <h3>Taxa de Adesão</h3>
+        <p>O valor é <strong>R$ 20,00</strong> que vem incluído no <strong>primeiro boleto</strong>.</p>
+        <h3>Como vem a minha cobrança?</h3>
+        <p>A cobrança é por boleto enviada por e-mail cadastrado nesse formulário.<br>
+        O valor da fatura será:<br>
+        Valor do Plano <strong>(Titular)</strong> + 10% de desconto sobre o valor do plano por cada <strong>Dependente</strong>.<br>
+        <em>OBS: Somente na primeira parcela terá a taxa de adesão acrescida na fatura no valor de R$ 20,00.</em>
+        </p>
+        <h3>Valor por Dependente</h3>
+        <p>Cada Dependente tem <strong>10% de desconto</strong> sobre o valor do plano escolhido.</p>
+        <h3>Dia de Vigência do plano</h3>
+        <p>A Vigência sempre é dia <strong id="effective_day">15</strong> de cada mês. Dia em que o plano começar a valer.</p>
+        <h3>Dia de corte do plano</h3>
+        <p>Para cadastros efetuados até dia <strong id="cutting_day">05</strong>, a parcela do plano será cobrado no mesmo mês,<br>caso o cadastro seja realizado após esse dia será cobrado no mês seguinte.</p>
+        <h3>Dia de Vencimento do plano</h3>
+        <p>O vencimento é sempre dia <strong id="due_day">1</strong> de cada mês.</p>
         <h3>Carteirinha</h3>
         <p>Você receberá sua carteirinha virtual no e-mail e whatsapp informado aqui no cadastro.</p>
         <h3>Termo e Adesão</h3>

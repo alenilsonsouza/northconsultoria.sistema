@@ -36,13 +36,17 @@
                     <input class="file-path validate" type="text">
                 </div>
             </div>
-            <div class="input-field col s6">
+            <div class="input-field col s4">
                 <input type="number" name="due_day" min="1" max="30" required>
                 <label for="due_day">Dia de Vencimento:</label>
             </div>
-            <div class="input-field col s6">
+            <div class="input-field col s4">
                 <input type="number" name="effective_day" min="1" max="30" required>
                 <label for="effective_day">Dia da Vigência:</label>
+            </div>
+            <div class="input-field col s4">
+                <input type="number" name="cutting_day" min="1" max="30" required>
+                <label for="cutting_day">Dia de corte:</label>
             </div>
             <div class="input-field col s12">
                 <textarea id="textarea1" class="materialize-textarea" name="text"></textarea>
@@ -79,7 +83,8 @@
                     </td>
                     <td>
                         Dia vencimento: <?=$plano['due_day'];?><br>
-                        Dia vigência: <?=$plano['effective_day'];?>
+                        Dia vigência: <?=$plano['effective_day'];?><br>
+                        Dia de Corte: <?=$plano['cutting_day'];?>
                     </td>
                     <td>
                         <?= $plano['price_real']; ?>

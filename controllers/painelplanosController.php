@@ -34,6 +34,7 @@ class painelplanosController extends controller
         $accreditNetWork = filter_input(INPUT_POST, 'accredit_network');
         $due_day = filter_input(INPUT_POST, 'due_day');
         $effective_day = filter_input(INPUT_POST, 'effective_day');
+        $cutting_day = filter_input(INPUT_POST, 'cutting_day');
         $file = $_FILES['file'];
         $filePDF = $_FILES['filePDF'];
 
@@ -49,6 +50,7 @@ class painelplanosController extends controller
                 $plan->setAccreditedNetWork($accreditNetWork);
                 $plan->setDueDay($due_day);
                 $plan->setEffectiveDay($effective_day);
+                $plan->setCuttingDay($cutting_day);
                 if (isset($filePDF['tmp_name'])) {
                     $plan->setCover($filePDF);
                 }
@@ -89,6 +91,7 @@ class painelplanosController extends controller
         $accreditNetWork = filter_input(INPUT_POST, 'accredited_network');
         $due_day = filter_input(INPUT_POST, 'due_day');
         $effective_day = filter_input(INPUT_POST, 'effective_day');
+        $cutting_day = filter_input(INPUT_POST, 'cutting_day');
         $id = filter_input(INPUT_POST, 'id');
         $file = $_FILES['file'];
         $filePDF = $_FILES['filePDF'];
@@ -108,6 +111,7 @@ class painelplanosController extends controller
             $plan->setAccreditedNetWork($accreditNetWork);
             $plan->setDueDay($due_day);
             $plan->setEffectiveDay($effective_day);
+            $plan->setCuttingDay($cutting_day);
             if (isset($file['tmp_name'])) {
                 $plan->setImage($file);
             }

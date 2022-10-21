@@ -133,8 +133,8 @@ class N_PlanHandler extends model
             }
             
 
-            $sql = "INSERT INTO {$this->table} (product, price, `image`, `text`,`accredited_network`, `cover`, `due_day`, `effective_day`) 
-            VALUES (:product, :price, :image, :text,:accredited_network, :cover, :due_day, :effective_day)";
+            $sql = "INSERT INTO {$this->table} (product, price, `image`, `text`,`accredited_network`, `cover`, `due_day`, `effective_day`, `cutting_day`) 
+            VALUES (:product, :price, :image, :text,:accredited_network, :cover, :due_day, :effective_day, :cutting_day)";
             $sql = $this->db->prepare($sql);
             $sql->execute([
                 'product' => $plan->getProduct(),
@@ -144,7 +144,8 @@ class N_PlanHandler extends model
                 'accredited_network' => $plan->getAccreditedNetwork(),
                 'cover' => $fileNameCover,
                 'due_day' => $plan->getDueDay(),
-                'effective_day' => $plan->getEffectiveDay()
+                'effective_day' => $plan->getEffectiveDay(),
+                'cutting_day' => $plan->getCuttingDay()
             ]);
         }
     }
@@ -202,7 +203,7 @@ class N_PlanHandler extends model
         }
 
         $sql = "UPDATE {$this->table} 
-        SET product = :product, price = :price, `image` = :image, `text` = :text, accredited_network = :accredited_network, cover = :cover, `due_day` = :due_day, `effective_day` = :effective_day WHERE id = :id";
+        SET product = :product, price = :price, `image` = :image, `text` = :text, accredited_network = :accredited_network, cover = :cover, `due_day` = :due_day, `effective_day` = :effective_day, `cutting_day` = :cutting_day WHERE id = :id";
         $sql = $this->db->prepare($sql);
         $sql->execute([
             'product' => $plan->getProduct(),
@@ -213,6 +214,7 @@ class N_PlanHandler extends model
             'cover' => $fileNameCover,
             'due_day' => $plan->getDueDay(),
             'effective_day' => $plan->getEffectiveDay(),
+            'cutting_day' => $plan->getCuttingDay(),
             'id' => $id
         ]);
     }

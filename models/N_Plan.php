@@ -10,6 +10,7 @@ class N_Plan
     private $cover;
     private $due_day;
     private $effective_day;
+    private $cutting_day;
 
     public function setProduct(string $product)
     {
@@ -43,6 +44,9 @@ class N_Plan
     public function setEffectiveDay($effective_day) {
         $this->effective_day = $effective_day;
     }
+    public function setCuttingDay($cutting_day) {
+        $this->cutting_day = $cutting_day;
+    }
 
     public function getProduct()
     {
@@ -75,5 +79,8 @@ class N_Plan
     }
     public function getEffectiveDay() {
         return $this->effective_day;
+    }
+    public function getCuttingDay() {
+        return $this->cutting_day;
     }
 }

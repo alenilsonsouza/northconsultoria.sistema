@@ -188,6 +188,8 @@ class homeController extends controller
         // Dia de vencimento dos boletos subsequentes
         $dueDay = intval($plan['due_day']);
 
+        $cuttingDay = intval($plan['cutting_day']);
+
         // Captura da data de hoje
         $today = date('d');
         $currentMonth = date('m');
@@ -223,8 +225,8 @@ class homeController extends controller
         $asaas->createPayment($data);
 
         // Cadastra a assinatura  com o valor do plano
-        // Verifica se o vencimento será no mesmo mês ou no mês posterior
-        if ($today <= 5) {
+        // Verifica se o dia da vigência será no mesmo mês ou no mês posterior
+        if ($today <= $cuttingDay) {
           $dueDate = $currentYear . '-' . $currentMonth . '-' . $dueDay;
         } else {
           $currentMonth = date('m', strtotime('+1 month'));
