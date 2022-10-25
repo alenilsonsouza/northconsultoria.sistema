@@ -61,7 +61,7 @@ $site = $s->getArray();
 				<div class="menu menu2">
 					<ul>
 						<li>
-							<a href="<?= BASE_URL; ?>" class="<?= $viewData['page'] == 'home' ? 'active' : ''; ?>">Home</a>
+							<a href="<?= BASE_URL; ?>" class="<?= $viewData['page'] == 'home' ? 'active' : ''; ?>">Início</a>
 						</li>
 						<li>
 							<a href="<?= BASE_URL; ?>quemsomos" class="<?= $viewData['page'] == 'quemsomos' ? 'active' : ''; ?>">Quem somos</a>
