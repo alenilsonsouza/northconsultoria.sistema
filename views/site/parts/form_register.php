@@ -3,19 +3,21 @@
 </div>
 <div class="search-corretor">
     <form class="form_default input-corretor" method="post" id="form_search_corretor">
-        <label for="n_corretor">Digite o código do vendedor</label>
+        <label for="n_corretor">Digite o código do vendedor e ENTER</label>
         <div class="inputs">
-            <input type="tel" name="n_corretor" id="n_corretor" required>
+            <input type="number" min="1" name="n_corretor" id="n_corretor" required placeholder="Ex.: 69">
             <button type="submit"><img src="<?= BASE_URL_IMAGE; ?>loupe.png" alt="" /></button>
         </div>
     </form>
-    <div>
+    <div class="checkBoxChoose">
         <input type="checkbox" name="no-corretor" id="no-corretor">
         <label for="no-corretor">Cadastrar sem informar o vendedor</label>
     </div>
     <div class="result--corretor" id="result--corretor">
 
     </div>
+</div>
+<div>
     <form action="<?= BASE_URL; ?>home/addClientAsaasInHome" method="post" class="form_default" id="form-register" enctype="multipart/form-data">
         
         <div class="typeRegister">
