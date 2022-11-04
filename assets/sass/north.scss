@@ -360,6 +360,19 @@ strong {
         }
     }
 }
+.table {
+    width: 100%;
+    th,td {
+        padding: 10px;
+    }
+    th {
+        font-weight: bold;
+        text-align: left;
+    }
+    td{
+        border:1px solid #ccc;
+    }
+}
 .form_document {
     max-width: 600px;
     .input {

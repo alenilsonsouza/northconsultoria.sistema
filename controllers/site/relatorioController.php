@@ -58,6 +58,8 @@ class relatorioController extends controller
 
         $people = new N_PeopleHandler();
         $dados['people'] = $people->listOneByCPFTitular($_SESSION['cpf_people']);
+        //$dados['dependents'] = $people->listDependentsFromTitular(84);
+    
         $dados['dependents'] = $people->listDependentsFromTitular($dados['people']['id']);
 
         $plan = new N_PlanHandler();

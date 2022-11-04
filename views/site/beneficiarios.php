@@ -6,16 +6,18 @@
         <p><strong>Plano:</strong> <?= $plan['product']; ?></p>
 
         <p><strong>Dependentes:</strong></p>
+        
         <?php if (count($dependents) > 0) : ?>
-        <table>
+        <table class="table">
             <tr>
                 <th>Nomes</th>
                 <th>Valores</th>
             </tr>
+            
             <?php foreach ($dependents as $item) : ?>
                 <tr>
                     <td><?= $item['name']; ?></td>
-                    <td><?= Moeda::converterParaBr($plan['price']) ;?></td>
+                    <td>R$ <?= Moeda::converterParaBr($plan['price']) ;?></td>
                 </tr>
             <?php endforeach; ?>
         </table>

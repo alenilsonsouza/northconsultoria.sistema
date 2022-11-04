@@ -216,8 +216,7 @@ class N_PeopleHandler extends model
         $sql = $this->db->prepare($sql);
         $sql->execute([':id' => $id]);
         if ($sql->rowCount() > 0) {
-            $list = $sql->fetch(PDO::FETCH_ASSOC);
-            $array = $this->listHandler('ALL', $list);
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
         return $array;
     }
