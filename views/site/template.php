@@ -59,7 +59,7 @@ $site = $s->getArray();
 						<li>
 							<a href="<?=BASE_URL;?>relatorio/documento" class="icon">
 								<img src="<?= BASE_URL_IMAGE; ?>invoice.png" alt="">
-								<span>Beneficioários</span></a>
+								<span>Beneficiários</span></a>
 						</li>
 					</ul>
 				</div>
