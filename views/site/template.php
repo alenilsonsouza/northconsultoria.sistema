@@ -7,7 +7,7 @@ $site = $s->getArray();
 
 <head>
 	<meta charset="utf-8" />
-	<title><?=$site['titulo']; ?></title>
+	<title><?= $site['titulo']; ?></title>
 	<meta property="og:url" content="https:<?= BASE_URL; ?>">
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="<?= $viewData['template']['site']['titulo']; ?>">
@@ -20,7 +20,7 @@ $site = $s->getArray();
 
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="<?=AUTOR; ?>">
+	<meta name="author" content="<?= AUTOR; ?>">
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" href="<?= BASE_URL_IMAGE; ?>favicon.png" type="image/x-icon">
 	<link rel="stylesheet" href="<?= BASE_URL; ?>assets/css/north.css">
@@ -86,10 +86,11 @@ $site = $s->getArray();
 			</div>
 		</div>
 	</header>
-	<?php if(isset($_SESSION['sender'])): // verifica o vendedor pelo id informado no link ?>
-		<div class="senderName">Vendedor(a): <?=$_SESSION['sender']['name'];?> (Cód.: <?=$_SESSION['sender']['id'];?>)</div>
-	<?php endif;?>
-	
+	<?php if (isset($_SESSION['sender'])) : // verifica o vendedor pelo id informado no link 
+	?>
+		<div class="senderName">Vendedor(a): <?= $_SESSION['sender']['name']; ?> (Cód.: <?= $_SESSION['sender']['id']; ?>)</div>
+	<?php endif; ?>
+
 	<?php $this->loadViewInTemplate($viewName, $viewData); ?>
 	<footer class="footer no-print">
 		<div class="container">
@@ -137,7 +138,7 @@ $site = $s->getArray();
 	</footer>
 
 	<div class="whatsapp no-print">
-		<a href="<?=WHATSAPP;?>" target="_blank">
+		<a href="<?= WHATSAPP; ?>" target="_blank">
 			<img src="<?= BASE_URL_IMAGE; ?>whatsapp_footer.png" alt="">
 		</a>
 	</div>
@@ -154,13 +155,25 @@ $site = $s->getArray();
 			<img src="<?= BASE_URL_IMAGE; ?>loading.gif" alt="">
 		</div>
 	</div>
+	<div class="updateInfo">
+		<div class="updateInfo-content">
+			<h5>Atualizamos a aplicação!</h5>
+			<p>Favor pressione as teclas abaixo no teclado<br>para atualizar todos os arquivos.</p>
+			<div class="warning"><kbd>CTRL</kbd>+<kbd>F5</kbd></div>
+			<p>Aviso de <a href="https://alenilsonsouza.com.br" target="_blank">Alenilson Souza (Dev Web)</a></p>
+		</div>
+	</div>
+	<script>
+		const VERSION = "<?= VERSION; ?>";
+	</script>
+	<script src="<?= BASE_URL_SCRIPT; ?>verifyUpdate.js"></script>
 	<script src="<?php echo BASE_URL_SCRIPT; ?>script.js"></script>
 	<script src="<?php echo BASE_URL_SCRIPT; ?>modal.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Loading.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Menu.js"></script>
-	<link rel="stylesheet" href="<?=BASE_URL_CSS; ?>vanillaSlideshow.css">
+	<link rel="stylesheet" href="<?= BASE_URL_CSS; ?>vanillaSlideshow.css">
 	<script language="JavaScript" type="text/javascript" src="<?php echo BASE_URL_SCRIPT; ?>MascaraValidacao.js"></script>
-	<?=$site['scripts']; ?>
+	<?= $site['scripts']; ?>
 </body>
 
 </html>

@@ -313,6 +313,53 @@ strong {
         }
     }
 }
+.updateInfo {
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#ccc;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000;
+    .updateInfo-content {
+        padding: 30px;
+        background-color: #fff;
+        text-align: center;
+        h5{
+            font-size: 30px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+        p{
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 20px;
+        }
+        kbd {
+            font-size: 60px;
+            padding: 15px;
+            background-color: #eee;
+            display: inline-block;
+            font-weight: bold;
+        }
+        a{
+            color:#000;
+            text-decoration: none;
+            &:hover {
+                color: #777;
+                text-decoration: underline;
+            }
+        }
+        .warning {
+            font-size: 60px;
+            margin: 20px 0;
+        }
+    }
+}
 .corretor--result--area {
     padding: 20px 40px;
     background-color: $primary;
