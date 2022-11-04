@@ -360,6 +360,29 @@ strong {
         }
     }
 }
+.form_document {
+    max-width: 600px;
+    .input {
+        label {
+            font-size: 15px;
+            line-height: 19px;
+            margin-bottom: 5px;
+        }
+        input{
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px 0;
+            border:none;
+            border-bottom: 2px solid $primary;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+    }
+}
+::placeholder{
+    font-family: inherit;
+    color: #ccc;
+}
 .corretor--result--area {
     padding: 20px 40px;
     background-color: $primary;

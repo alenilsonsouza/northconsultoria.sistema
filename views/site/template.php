@@ -56,6 +56,11 @@ $site = $s->getArray();
 								<img src="<?= BASE_URL_IMAGE; ?>invoice.png" alt="">
 								<span>2ª via do boleto</span></a>
 						</li>
+						<li>
+							<a href="<?=BASE_URL;?>relatorio/documento" class="icon">
+								<img src="<?= BASE_URL_IMAGE; ?>invoice.png" alt="">
+								<span>Beneficioários</span></a>
+						</li>
 					</ul>
 				</div>
 				<div class="menu menu2">

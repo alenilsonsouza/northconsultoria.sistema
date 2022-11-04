@@ -194,6 +194,34 @@ class N_PeopleHandler extends model
         return $array;
     }
 
+    public function listOneByCPFTitular($cpf)
+    {
+
+        $array = [];
+        $sql = "SELECT * FROM {$this->table} WHERE `cpf` = :cpf AND `type_register` = 'T'";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([':cpf' => $cpf]);
+        if ($sql->rowCount() > 0) {
+            $list = $sql->fetch(PDO::FETCH_ASSOC);
+            $array = $this->listHandler('ONE', $list);
+        }
+        return $array;
+    }
+
+    public function listDependentsFromTitular($id)
+    {
+
+        $array = [];
+        $sql = "SELECT * FROM {$this->table} WHERE `id_people` = :id AND `type_register` = 'D'";
+        $sql = $this->db->prepare($sql);
+        $sql->execute([':id' => $id]);
+        if ($sql->rowCount() > 0) {
+            $list = $sql->fetch(PDO::FETCH_ASSOC);
+            $array = $this->listHandler('ALL', $list);
+        }
+        return $array;
+    }
+
     public function listIndicateds($id)
     {
         $sql = "SELECT * FROM {$this->table} WHERE id_people = :id ORDER BY id DESC";

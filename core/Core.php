@@ -28,7 +28,10 @@ class Core {
 			$currentAction = 'index';
 		}
 
-		if(!file_exists('controllers/'.$currentController.'.php')) {
+		if(!file_exists('controllers/'.$currentController.'.php') 
+		&& !file_exists('controllers/painel/'.$currentController.'.php')
+		&& !file_exists('controllers/site/'.$currentController.'.php')
+		&& !file_exists('controllers/usuario/'.$currentController.'.php')) {
 			$currentController = 'notFoundController';
 			$currentAction = 'index';
 		}
