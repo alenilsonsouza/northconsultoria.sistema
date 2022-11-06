@@ -57,7 +57,7 @@ $site = $s->getArray();
 								<span>2ª via do boleto</span></a>
 						</li>
 						<li>
-							<a href="<?=BASE_URL;?>relatorio/documento" class="icon">
+							<a href="<?= BASE_URL; ?>relatorio/documento" class="icon">
 								<img src="<?= BASE_URL_IMAGE; ?>invoice.png" alt="">
 								<span>Beneficiários</span></a>
 						</li>
@@ -167,6 +167,9 @@ $site = $s->getArray();
 			<div class="warning"><kbd>CTRL</kbd>+<kbd>F5</kbd></div>
 			<p>Aviso de <a href="https://alenilsonsouza.com.br" target="_blank">Alenilson Souza (Dev Web)</a></p>
 		</div>
+	</div>
+	<div class="dev">
+		<span>Desenvolvido por <a href="https://alenilsonsouza.com.br" target="_blank" title="Desenvolvedor Web desde 2010">Alenilson Souza</a></span>
 	</div>
 	<script>
 		const VERSION = "<?= VERSION; ?>";

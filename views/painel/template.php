@@ -1,5 +1,5 @@
 <?php
-$user = isset($_SESSION['plogin'])?$_SESSION['plogin']:0;
+$user = isset($_SESSION['plogin']) ? $_SESSION['plogin'] : 0;
 $u = new Usuarios($user);
 $nome = $u->getNome();
 $s = new Site();
@@ -29,12 +29,12 @@ $configuracoes = $c->getArray();
   <!--Material Design-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/materialize.min.js"></script>
-  <script src="<?=BASE_URL;?>assets/js/Controllers/Loading.js" defer></script>
+  <script src="<?= BASE_URL; ?>assets/js/Controllers/Loading.js" defer></script>
   <?php
-	/**
-	 * Importação de JS de APIS */
-	require 'views/includes/jsimport.php';
-	?>
+  /**
+   * Importação de JS de APIS */
+  require 'views/includes/jsimport.php';
+  ?>
 
 <body>
   <div class="loading">
@@ -82,6 +82,9 @@ $configuracoes = $c->getArray();
     </div>
   </div>
   <div class="both"></div>
+  <div class="dev">
+    <span>Desenvolvido por <a href="https://alenilsonsouza.com.br" target="_blank" title="Desenvolvedor Web desde 2010">Alenilson Souza</a></span>
+  </div>
   <script src="<?php echo BASE_URL; ?>assets/js/jquery-3.4.1.min.js"></script>
   <script src="<?php echo BASE_URL; ?>assets/js/script_painel.js"></script>
 
