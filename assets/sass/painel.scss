@@ -3,6 +3,11 @@ $cor_verde: rgb(15, 142, 116);
 $cor_vermelha: #b21313;
 $cor_preta: #000;
 $cor_cinza: rgb(183, 182, 182);
+$pcolor1: #d6c76f;
+$pcolor2: #d4d686;
+$pcolor3: #12295f;
+$pcolor4: #1d5e8b;
+$pcolor5: #26a5bd;
 .tudo {
     background-color: #fff;
     min-height: 100vh;
@@ -24,6 +29,9 @@ $cor_cinza: rgb(183, 182, 182);
     }
 
 }
+.brand-logo .imagem {
+    background-color:#f6f6f6 !important;
+}
 .formLogin {
     background-color: #fff;
     padding: 25px 40px !important;
@@ -42,6 +50,15 @@ a {
         height: 100%;
         object-fit: cover;
         object-position: center;
+    }
+}
+a.card.blue-grey.darken-1{
+    background-color: $pcolor3 !important;
+    display: block;
+    color:$pcolor1;
+    &:hover {
+        background-color:$pcolor4 !important;
+        color:$cor_preta;
     }
 }
 .loading {
@@ -162,6 +179,65 @@ a {
             }
         }
     }
+}
+.topFixed {
+    position: fixed;
+    left: 210px;
+    top:0;
+    right: 0;
+    height: 40px;
+    background-color: #fff;;
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #12295f;
+    color: #fff;
+    a{
+        color:#fff;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+}
+.btn, .btn-large {
+    background-color:#12295f !important;
+}
+.btn, .btn-large, .btn-flat {
+    line-height: 12px !important;
+    height: auto !important;
+    padding: 8px 10px !important; 
+}
+.btn, .btn-large, .btn-floating, .btn-large, .btn-flat {
+    font-size: 10px !important;
+    line-height: 12px;
+    &:hover {
+        background-color:#000 !important;
+    }
+}
+.menuLateral {
+    width: 210px !important;
+}
+.conteudoPrincipal {
+    float: none !important;
+    margin-left: 210px;
+    width: auto !important;
+    min-height: calc(100vh - 45px);
+    padding-top: 40px;
+}
+.menuVertical {
+    background-color:transparent;
+}
+.menuVertical ul li a {
+    padding: 7px 6px !important;
+    color:#000;
+}
+nav ul a:hover, nav ul a.ativo, .linkPerfil.ativo {
+    background-color: #010165 !important;
+}
+.dev {
+    margin-left: 210px;
 }
 @keyframes carrega {
     0% {

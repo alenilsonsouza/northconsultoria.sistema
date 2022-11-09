@@ -327,4 +327,12 @@ class N_PlanHandler extends model
 
         return $array;
     }
+
+    public function getTotal() {
+        
+        $sql = "SELECT COUNT(*) as t FROM {$this->table}";
+        $sql = $this->db->query($sql);
+        $item = $sql->fetch(PDO::FETCH_ASSOC);
+        return $item['t'];
+    }
 }

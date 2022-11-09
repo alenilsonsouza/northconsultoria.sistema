@@ -23,6 +23,12 @@ class painelController extends controller {
 
         $titulares = $people->list('T','', 0, 5);
         $vendedores = $people->list('C','', 0, 5);
+
+        $plano = new N_PlanHandler();
+        $redes = new RedeCredenciadaHandler();
+
+        $planosTotal = $plano->getTotal();
+        $redesTotal = $redes->getTotal();
         
 		
         $this->loadTemplateInPainel('painel', [
@@ -32,7 +38,9 @@ class painelController extends controller {
             'totalTitulares' => $totalTitulares,
             'totalVendedores' => $totalVendedores,
             'titulares' => $titulares,
-            'vendedores' => $vendedores
+            'vendedores' => $vendedores,
+            'planosTotal' => $planosTotal,
+            'redesTotal' => $redesTotal
         ]);
     }
 }
