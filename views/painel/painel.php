@@ -4,8 +4,12 @@
   </div>
 </div>
 <div class="row">
-  <div class="col s6">
+  <div class="col s12">
     <h5>Últimos Cadastros</h5>
+  </div>
+</div>
+<div class="row">
+  <div class="col s6">
     <p><strong>Titulares</strong></p>
     <?php foreach ($titulares as $item) : ?>
       <?= Data::convertDate($item['date_register']); ?> - <?= $item['name']; ?><br />

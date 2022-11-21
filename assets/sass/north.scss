@@ -12,6 +12,7 @@ $third: #ef2c28;
 body {
     font-family: $font;
     font-size: 16px;
+    background-color:#ccc;
 }
 .banner-full {
     width: 100%;
@@ -22,11 +23,42 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    background-color: #fff;
     h1{
         text-align: center;
         background-color:rgba(255,255,255, 0.8);
         padding: 20px;
         text-transform: uppercase;
+    }
+}
+.cookieAccept {
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background-color:#fff;
+    padding: 40px;
+    width: 350px;
+    z-index:10000000;
+    box-sizing: border-box;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+    border-radius:30px;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+    .text {
+        color:#000;
+        margin-right: 20px;
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 20px;
+        a{
+            color: #000;
+            &:hover{
+                text-decoration:underline;
+            }
+        }
     }
 }
 .font-light {
@@ -262,6 +294,9 @@ strong {
         margin-bottom: 30px;
         background-color: #eee;
         padding:20px;
+        border-top-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+        border-bottom: 4px solid $primary;
         .img {
             height: 200px;
             width: 200px;
@@ -439,7 +474,7 @@ strong {
         width: 100%;
         box-sizing: border-box;
         padding: 15px;
-        border: 1px solid $primary;
+        border: none;
         border-radius: 5px;
         margin-bottom: 15px;
         font-family: $font;

@@ -171,11 +171,16 @@ $site = $s->getArray();
 	<div class="dev">
 		<span>Desenvolvido por <a href="https://alenilsonsouza.com.br" target="_blank" title="Desenvolvedor Web desde 2010">Alenilson Souza</a></span>
 	</div>
+	<aside class="cookieAccept">
+		<div class="text">Nós coletamos cookies para trazer a melhor experiência pra você. Ao navegar no nosso site você aceita esse consentimento.</div>
+		
+		<button class="button acceptCookie">Ok! Entendi.</button>
+	</aside>
 	<script>
 		const VERSION = "<?= VERSION; ?>";
 	</script>
 	<script src="<?= BASE_URL_SCRIPT; ?>verifyUpdate.js"></script>
-	<script src="<?php echo BASE_URL_SCRIPT; ?>script.js"></script>
+	<script src="<?php echo BASE_URL_SCRIPT; ?>script.js" type="module"></script>
 	<script src="<?php echo BASE_URL_SCRIPT; ?>modal.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Loading.js"></script>
 	<script src="<?= BASE_URL; ?>assets/js/Controllers/Menu.js"></script>
