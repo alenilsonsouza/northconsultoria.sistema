@@ -160,6 +160,7 @@ $site = $s->getArray();
 			<img src="<?= BASE_URL_IMAGE; ?>loading.gif" alt="">
 		</div>
 	</div>
+	<!--
 	<div class="updateInfo">
 		<div class="updateInfo-content">
 			<h5>Atualizamos a aplicação!</h5>
@@ -168,6 +169,7 @@ $site = $s->getArray();
 			<p>Aviso de <a href="https://alenilsonsouza.com.br" target="_blank">Alenilson Souza (Dev Web)</a></p>
 		</div>
 	</div>
+	-->
 	<div class="dev">
 		<span>Desenvolvido por <a href="https://alenilsonsouza.com.br" target="_blank" title="Desenvolvedor Web desde 2010">Alenilson Souza</a></span>
 	</div>
